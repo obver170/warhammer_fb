@@ -1,31 +1,5 @@
-import random
-
-
-class Dice:
-    # Класс для броска кубиков
-    def __init__(self):
-        pass
-
-    def throwDice(self, type=100):
-        # Одиночный бросок по умолчанию d100
-        dice = random.randint(1, type)
-        return dice
-
-    def throwDices100(self, number=2):
-        # Несколько бросков d100, по умолчанию 2
-        res = []
-        for i in range(0, number):
-            dice = self.throwDice(100)
-            res.append(dice)
-        return res
-
-    def throwDices10(self, number=2):
-        # Несколько бросков d10, по умолчанию 2
-        res = []
-        for i in range(0, number):
-            dice = self.throwDice(10)
-            res.append(dice)
-        return res
+from warhammer_fb.code.answer import Answer
+from warhammer_fb.code.dice import Dice
 
 
 class Check:
@@ -63,6 +37,8 @@ class Check:
         'Тяжелая': -20,
         'Безумная': -30,
     }
+
+
 
     @property
     def critical_fail(self):
@@ -102,31 +78,31 @@ class Check:
             print(f'гарантированная удача {dice}')
             return is_luck
 
-    def simpleCheck(self, skill, dice, modifer=0):
+    def simpleCheck(self, proof, dice, modifier=0):
         # Простая проверка. Сначала указывается показатель навыка, затем бросок кубика
         # Возвращает разницу между проверяемым навыком и броском кубика
         # Положительный результат обозначает успех, отрицательный провал
         is_guaranteed = self.checkGuaranteed(dice)
         if is_guaranteed:
             return is_guaranteed
-        print(f'Бросок кубика {dice} против {skill}')
-        if skill + modifer - dice >= 0:
+        print(f'Бросок кубика {dice} против {proof}')
+        if proof + modifier - dice >= 0:
             return '1001'
         else:
             return '-1001'
 
-    def setLvlHit(self, skill, dice, modifer=0):
+    def setLvlHit(self, proof, dice, modifier=0):
         # Определяет количество успехов в текущей проверке
-        self.lvl_hit = (skill+modifer) // 10 - dice // 10
+        self.lvl_hit = (proof+modifier) // 10 - dice // 10
 
     def setHitsLongCheck(self, hits):
         # Сохраняет текущую длительную проверку
         self.hits_long_check = hits
 
-    def extendedCheck(self, skill, dice, modifer=0):
+    def extendedCheck(self, proof, dice, modifier=0):
         # Расширенная проверка, без проверки на гарантированные исходы.
-        # 0 успехов, считаются 1 успехом
-        self.setLvlHit(skill, dice, modifer)
+        # 0 успехов, считаются условным успехом
+        self.setLvlHit(proof, dice, modifier)
         if self.lvl_hit < 0:
             if self.lvl_hit <= -6:
                 return '-1004'
@@ -149,7 +125,7 @@ class Check:
         print(f'успех = {self.lvl_hit}')
         return self.lvl_hit
 
-    def longCheck(self, skill, dices, rounds, success=0, modifer=0):
+    def longCheck(self, proof, dices, rounds, success=0, modifier=0):
         #  Метод для проведения длительной проверки.
         #  Для успешного выполнения необходимо набрать определенное количество успехов за ограниченное время раундов
         #  rounds - количество раундов отведенное на проверку
@@ -158,7 +134,7 @@ class Check:
         hits = []
         for round in range(1, rounds+1):
             dice = dices[i]
-            check = self.extendedCheck(skill, dice, modifer)
+            check = self.extendedCheck(proof, dice, modifier)
             i += 1
             hits.append(self.lvl_hit)
             success = success - self.lvl_hit
@@ -167,6 +143,20 @@ class Check:
                 return '1001'
         self.setHitsLongCheck(hits)
         return '-1001'
+
+
+    def counterCheck(self, proof_one, dice_one, proof_two, dice_two, modifier_one=0, modifier_two=0):
+        # Метод для проведения встречной проверки
+        check_one = self.extendedCheck(proof_one, dice_one, modifier_one)
+        hit_one = self.lvl_hit
+        check_two = self.extendedCheck(proof_two, dice_two, modifier_two)
+        hit_two = self.lvl_hit
+        print(f'Первый - {check_one} бросок - {dice_one} проверка - {proof_one} уровень успеха - {hit_one}')
+        print(f'Второй - {check_two} бросок - {dice_two} проверка - {proof_two} уровень успеха - {hit_two}')
+
+
+
+
 
 
 dice = Dice()
@@ -182,6 +172,10 @@ print(check.simpleCheck(54, d100, 20))
 print(check.extendedCheck(54, d100, 20), 'Количество успехов ', check.lvl_hit)
 print(dices)
 
-print(check.longCheck(skill=60, dices=dices, rounds=5, success=10))
+print(check.longCheck(proof=60, dices=dices, rounds=5, success=10))
 print(check.hits_long_check)
 
+
+check.counterCheck(50, dice.throwDice(), 50, dice.throwDice())
+
+answ = Answer('SIMPLE')
