@@ -52,63 +52,83 @@ class Answer:
 
     def setCode(self, vol):
         # Сохранить код успешности проверки
-        pass
+        self.__code = vol
 
     def setDescCode(self, vol):
         # Сохранить расшифровку кода успешности проверки
-        pass
+        self.__desc_code = vol
 
-    def setDice(self, vol):
+    def setDice(self, dice):
         # Сохранить значение выпавшее на кубах
         # Результат хранится в массиве
-        pass
+        dices = []
+        if type(list) != 'list':
+            dices.append(dice)
+        else:
+            dices = dice
+        self.__dice = dices
 
     def setProof(self, vol):
         # Сохранить значение проходимой проверки
-        pass
+        self.__proof = vol
 
     def setModifier(self, vol):
         # Сохранить значение модификаторов проверки
-        pass
+        self.__modifier = vol
 
-    def setLvlHit(self, vol):
+    def setLvlHit(self, hit):
         # Сохранить количество успехов
         # Результат хранится в массиве
-        pass
+        hits = []
+        if type(list) != 'list':
+            hits.append(hit)
+        else:
+            hits = hit
+        self.__lvl_hit = hits
 
     def setRounds(self, vol):
         # Сохранить длительность проверки
-        pass
+        self.__rounds = vol
 
     def setCodeEnemy(self, vol):
         # Сохранить код успешности проверки противника
-        pass
+        self.__code_enemy = vol
 
     def setDescCodeEnemy(self, vol):
         # Сохранить расшифровку кода успешности проверки
-        pass
+        self.__desc_code_enemy = vol
 
-    def setDiceEnemy(self, vol):
+    def setDiceEnemy(self, dice_enemy):
         # Сохранить значение выпавшее на кубах
         # Результат хранится в массиве
-        pass
+        dices = []
+        if type(list) != 'list':
+            dices.append(dice_enemy)
+        else:
+            dices = dice_enemy
+        self.__dice_enemy = dices
 
     def setProofEnemy(self, vol):
         # Сохранить значение проходимой проверки
-        pass
+        self.__proof_enemy = vol
 
     def setModifierEnemy(self, vol):
         # Сохранить значение модификаторов проверки
-        pass
+        self.__modifier_enemy = vol
 
-    def setLvlHitEnemy(self, vol):
+    def setLvlHitEnemy(self, hit_enemy):
         # Сохранить количество успехов
         # Результат хранится в массиве
-        pass
+        hits = []
+        if type(list) != 'list':
+            hits.append(hit_enemy)
+        else:
+            hits = hit_enemy
+        self.__lvl_hit_enemy = hits
 
     def setRoundsEnemy(self, vol):
         # Сохранить длительность проверки противника
-        pass
+        self.__rounds_enemy = vol
 
     def getAnswer(self):
         # Сформировать и получить ответ
@@ -134,3 +154,10 @@ class Answer:
 
 a = Answer('SIMPLE')
 print(a.getAnswer())
+
+
+a = ['r', 'r']
+a1 = 'a'
+
+print(type(a))
+print(type(a1))
