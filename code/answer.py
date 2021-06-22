@@ -116,6 +116,10 @@ class Answer:
             hits = hit
         self.__lvl_hit = hits
 
+    @property
+    def lvl_hit(self):
+        return self.__lvl_hit
+
     def setRounds(self, vol):
         # Сохранить длительность проверки
         self.__rounds = vol

@@ -71,11 +71,11 @@ class Check:
         # Метод проверяет попадает ли бросок в гарантированный диапазон удачи и неудачи
         is_fail = self.__checkGuarantFail(dice)
         if is_fail:
-            print(f'гарантированная неудача {dice}')
+            print(f'гарантированный провал {dice}')
             return is_fail
         is_luck = self.__checkGuarantLuck(dice)
         if is_luck:
-            print(f'гарантированная удача {dice}')
+            print(f'гарантированный успех {dice}')
             return is_luck
 
     def simpleCheck(self, proof, dice, modifier=0):
@@ -86,9 +86,9 @@ class Check:
         answer.setDice(dice)
         answer.setProof(proof)
         answer.setModifier(modifier)
-        is_guaranteed = self.checkGuaranteed(dice)
-        if is_guaranteed:
-            answer.setCode(is_guaranteed)
+        if self.checkGuaranteed(dice):
+            answer.setCode(self.checkGuaranteed(dice))
+            return answer
         print(f'Бросок кубика {dice} против {proof}')
         if proof + modifier - dice >= 0:
             answer.setCode('1001')
@@ -99,37 +99,49 @@ class Check:
 
     def setLvlHit(self, proof, dice, modifier=0):
         # Определяет количество успехов в текущей проверке
-        self.lvl_hit = (proof+modifier) // 10 - dice // 10
+        return (proof+modifier) // 10 - dice // 10
 
     def setHitsLongCheck(self, hits):
         # Сохраняет текущую длительную проверку
         self.hits_long_check = hits
 
-    def extendedCheck(self, proof, dice, modifier=0):
+    def extendedCheck(self, proof, dice, modifier=0, set_i=0):
         # Расширенная проверка, без проверки на гарантированные исходы.
         # 0 успехов, считаются условным успехом
-        self.setLvlHit(proof, dice, modifier)
-        if self.lvl_hit < 0:
-            if self.lvl_hit <= -6:
-                return '-1004'
-            elif self.lvl_hit <= -4:
-                return '-1003'
-            elif self.lvl_hit <= -2:
-                return '-1001'
-            else:
-                return '-1002'
-        if self.lvl_hit >= 0:
-            if self.lvl_hit >= 6:
-                return '1004'
-            elif self.lvl_hit >= 4:
-                return '1003'
-            elif self.lvl_hit >= 2:
-                return '1001'
-            else:
-                return '1002'
 
-        print(f'успех = {self.lvl_hit}')
-        return self.lvl_hit
+        answer = self.simpleCheck(proof, dice, modifier)
+        answer.code_type = 'EXTENDED'
+
+        lvl_hit = self.setLvlHit(proof, dice, modifier)
+        answer.setLvlHit(lvl_hit)
+
+        # Количество раундов, в течении которых длится проверка.
+        # В случае простой расширенной проверки это 1 раунд и берется первый элемент из списка успехов
+        # Это необходимо для того чтобы в дальнейшем использовать этот метод при длительной проверке
+        # !!!!! Тем не менее это костыль. Думать как реализовать безопаснее. !!!!
+        i = set_i
+
+        if answer.lvl_hit[i] < 0:
+            if answer.lvl_hit[i] <= -6:
+                answer.setCode('-1004')
+            elif answer.lvl_hit[i] <= -4:
+                answer.setCode('-1003')
+            elif answer.lvl_hit[i] <= -2:
+                answer.setCode('-1001')
+            else:
+                answer.setCode[i]('-1002')
+        if answer.lvl_hit[i] >= 0:
+            if answer.lvl_hit[i] >= 6:
+                answer.setCode('1004')
+            elif answer.lvl_hit[i] >= 4:
+                answer.setCode('1003')
+            elif answer.lvl_hit[i] >= 2:
+                answer.setCode('1001')
+            else:
+                answer.setCode('1002')
+
+        return answer
+
 
     def longCheck(self, proof, dices, rounds, success=0, modifier=0):
         #  Метод для проведения длительной проверки.
@@ -165,26 +177,15 @@ class Check:
 
 
 
-dice = Dice()
-
-print(dice.throwDice())
-dices = dice.throwDices100(5)
+print('*'*15)
 
 check = Check()
+dice = Dice()
 check.critical_fail = 96
 d100 = dice.throwDice()
 
-print(check.simpleCheck(54, d100, 20))
-print(check.extendedCheck(54, d100, 20), 'Количество успехов ', check.lvl_hit)
-print(dices)
-
-print(check.longCheck(proof=60, dices=dices, rounds=5, success=10))
-print(check.hits_long_check)
-
-
-check.counterCheck(50, dice.throwDice(), 50, dice.throwDice())
-
-print('*'*15)
-
 simple_check = check.simpleCheck(60, d100, -20)
 print(simple_check)
+
+extended_check = check.extendedCheck(60, d100, 10)
+print(extended_check)
