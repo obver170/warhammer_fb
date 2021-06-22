@@ -82,14 +82,20 @@ class Check:
         # Простая проверка. Сначала указывается показатель навыка, затем бросок кубика
         # Возвращает разницу между проверяемым навыком и броском кубика
         # Положительный результат обозначает успех, отрицательный провал
+        answer = Answer('SIMPLE')
+        answer.setDice(dice)
+        answer.setProof(proof)
+        answer.setModifier(modifier)
         is_guaranteed = self.checkGuaranteed(dice)
         if is_guaranteed:
-            return is_guaranteed
+            answer.setCode(is_guaranteed)
         print(f'Бросок кубика {dice} против {proof}')
         if proof + modifier - dice >= 0:
-            return '1001'
+            answer.setCode('1001')
         else:
-            return '-1001'
+            answer.setCode('-1001')
+        return answer
+
 
     def setLvlHit(self, proof, dice, modifier=0):
         # Определяет количество успехов в текущей проверке
@@ -178,4 +184,7 @@ print(check.hits_long_check)
 
 check.counterCheck(50, dice.throwDice(), 50, dice.throwDice())
 
-answ = Answer('SIMPLE')
+print('*'*15)
+
+simple_check = check.simpleCheck(60, d100, -20)
+print(simple_check)

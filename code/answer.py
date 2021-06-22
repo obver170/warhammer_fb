@@ -35,6 +35,7 @@ class Answer:
         self.__modifier = None
         self.__lvl_hit = None
         self.__rounds = None
+
         self.__code_enemy = None
         self.__desc_code_enemy = None
         self.__dice_enemy = None
@@ -42,6 +43,35 @@ class Answer:
         self.__modifier_enemy = None
         self.__lvl_hit_enemy = None
         self.__rounds_enemy = None
+
+    def __repr__(self):
+        repr = ''
+        if self.__code:
+            repr += f'Код проверки: {self.__code}. '
+        if self.__dice:
+            repr += f'Значения кубиков: {self.__dice}, '
+        if self.__proof:
+            repr += f'порог проверки: {self.__proof}, '
+        if self.__modifier:
+            repr += f'участвующие модификаторы: {self.__modifier}, '
+        if self.__lvl_hit:
+            repr += f'уровень успехов: {self.__lvl_hit}, '
+        if self.__rounds:
+            repr += f'продолжительность проверки: {self.__rounds}, '
+
+        if self.__code_enemy:
+            repr += f'Код проверки: {self.__code_enemy}. '
+        if self.__dice_enemy:
+            repr += f'Значения кубиков: {self.__dice_enemy}, '
+        if self.__proof_enemy:
+            repr += f'порог проверки: {self.__proof_enemy}, '
+        if self.__modifier_enemy:
+            repr += f'участвующие модификаторы: {self.__modifier_enemy}, '
+        if self.__lvl_hit_enemy:
+            repr += f'уровень успехов: {self.__lvl_hit_enemy}, '
+        if self.__rounds_enemy:
+            repr += f'продолжительность проверки: {self.__rounds_enemy}, '
+        return repr
 
     def __checkType(self, type_check):
         # Проверка, поддерживается ли возможность ответа на тип запрашиваемого вопроса
