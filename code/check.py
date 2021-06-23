@@ -78,7 +78,7 @@ class Check:
             print(f'гарантированный успех {dice}')
             return is_luck
 
-    def simpleCheck(self, proof, dice, modifier=0):
+    def simpleCheck(self, proof, dice, modifier=0, name='Noname'):
         # Простая проверка. Сначала указывается показатель навыка, затем бросок кубика
         # Возвращает разницу между проверяемым навыком и броском кубика
         # Положительный результат обозначает успех, отрицательный провал
@@ -86,6 +86,7 @@ class Check:
         answer.setDice(dice)
         answer.setProof(proof)
         answer.setModifier(modifier)
+        answer.setName(name)
         if self.checkGuaranteed(dice):
             answer.setCode(self.checkGuaranteed(dice))
             return answer
@@ -105,12 +106,12 @@ class Check:
     #     # скоро удалить
     #     self.hits_long_check = hits
 
-    def extendedCheck(self, proof, dice, modifier=0, set_i=0):
+    def extendedCheck(self, proof, dice, modifier=0, set_i=0, name='Nоname'):
         # Расширенная проверка, без проверки на гарантированные исходы.
         # 0 успехов, считаются условным успехом
 
-        answer = self.simpleCheck(proof, dice, modifier)
-        answer.code_type = 'EXTENDED'
+        answer = self.simpleCheck(proof, dice, modifier, name=name)
+        answer.type_check = 'EXTENDED'
 
         lvl_hit = self.setLvlHit(proof, dice, modifier)
         answer.setLvlHit(lvl_hit)
@@ -170,7 +171,7 @@ class Check:
     #     self.setHitsLongCheck(hits)
     #     return '-1001'
 
-    def longCheck(self, proof, dices, rounds, success=0, modifier=0):
+    def longCheck(self, proof, dices, rounds, success=0, modifier=0, name='Noname'):
         # Метод для проведения длительной проверки.
         # Для успешного выполнения необходимо набрать определенное количество успехов за ограниченное время раундов
         # rounds - количество раундов отведенное на проверку
@@ -181,6 +182,7 @@ class Check:
         answer.setRounds(rounds)
         answer.setSuccess(success)
         answer.setModifier(modifier)
+        answer.setName(name)
 
 
         i = 0
@@ -205,15 +207,27 @@ class Check:
 
 
 
-    def counterCheck(self, proof_one, dice_one, proof_two, dice_two, modifier_one=0, modifier_two=0):
-        # Метод для проведения встречной проверки
-        check_one = self.extendedCheck(proof_one, dice_one, modifier_one)
-        hit_one = self.lvl_hit
-        check_two = self.extendedCheck(proof_two, dice_two, modifier_two)
-        hit_two = self.lvl_hit
-        print(f'Первый - {check_one} бросок - {dice_one} проверка - {proof_one} уровень успеха - {hit_one}')
-        print(f'Второй - {check_two} бросок - {dice_two} проверка - {proof_two} уровень успеха - {hit_two}')
+    # def counterCheck(self, proof_one, dice_one, proof_two, dice_two, modifier_one=0, modifier_two=0):
+    #     # Метод для проведения встречной проверки
+    #     check_one = self.extendedCheck(proof_one, dice_one, modifier_one)
+    #     hit_one = self.lvl_hit
+    #     check_two = self.extendedCheck(proof_two, dice_two, modifier_two)
+    #     hit_two = self.lvl_hit
+    #     print(f'Первый - {check_one} бросок - {dice_one} проверка - {proof_one} уровень успеха - {hit_one}')
+    #     print(f'Второй - {check_two} бросок - {dice_two} проверка - {proof_two} уровень успеха - {hit_two}')
 
+
+    def counterCheck(self, answers):
+        # Метод для мгновенной встречной проверки
+        # Принимает массив объектов Answer сформированных методом extendedCheck
+        res = None
+        min = -1000
+        for answer in answers:
+            if answer.lvl_hit[0] > min:
+                min = answer.lvl_hit[0]
+                res = answer
+        res.type_check ='COUNTER'
+        return res
 
 
 
@@ -226,18 +240,34 @@ dice = Dice()
 check.critical_fail = 96
 d100 = dice.throwDice()
 
-simple_check = check.simpleCheck(60, d100, -20)
-print(simple_check.code_type)
-print(simple_check)
-
-
+# simple_check = check.simpleCheck(60, d100, -20)
+# print(simple_check.code_type)
+# print(simple_check)
+#
+#
 d100 = dice.throwDice()
 extended_check = check.extendedCheck(60, d100, 10)
-print(extended_check.code_type)
+print(extended_check.type_check)
 print(extended_check)
+print(extended_check.lvl_hit[0])
+#
+#
+# dices = dice.throwDices100(10)
+# long_check = check.longCheck(60, dices, 10, 6, -10)
+# print(long_check.code_type)
+# print(long_check)
 
+print('*'*10)
+print('Встречная проверка')
+proof = 60
+mod = 10
+answers = []
+answers.append(check.extendedCheck(proof, dice.throwDice(), mod, name='Тирг'))
+answers.append(check.extendedCheck(proof, dice.throwDice(), mod, name='Олень'))
+answers.append(check.extendedCheck(proof, dice.throwDice(), mod, name='Медведь'))
 
-dices = dice.throwDices100(10)
-long_check = check.longCheck(60, dices, 10, 6, -10)
-print(long_check.code_type)
-print(long_check)
+winner = check.counterCheck(answers)
+for a in answers:
+    print(a)
+print('Победитель')
+print(winner)
