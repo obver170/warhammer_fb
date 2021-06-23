@@ -35,6 +35,7 @@ class Answer:
         self.__modifier = None
         self.__lvl_hit = None
         self.__rounds = None
+        self.__success = None
 
         self.__code_enemy = None
         self.__desc_code_enemy = None
@@ -43,6 +44,7 @@ class Answer:
         self.__modifier_enemy = None
         self.__lvl_hit_enemy = None
         self.__rounds_enemy = None
+        self.__success_enemy = None
 
     def __repr__(self):
         repr = ''
@@ -58,6 +60,8 @@ class Answer:
             repr += f'уровень успехов: {self.__lvl_hit}, '
         if self.__rounds:
             repr += f'продолжительность проверки: {self.__rounds}, '
+        if self.__success:
+            repr += f'необходимое количество успехов: {self.__success}, '
 
         if self.__code_enemy:
             repr += f'Код проверки: {self.__code_enemy}. '
@@ -71,6 +75,8 @@ class Answer:
             repr += f'уровень успехов: {self.__lvl_hit_enemy}, '
         if self.__rounds_enemy:
             repr += f'продолжительность проверки: {self.__rounds_enemy}, '
+        if self.__success_enemy:
+            repr += f'необходимое количество успехов противника: {self.__success_enemy}, '
         return repr
 
     def __checkType(self, type_check):
@@ -92,11 +98,15 @@ class Answer:
         # Сохранить значение выпавшее на кубах
         # Результат хранится в массиве
         dices = []
-        if type(list) != 'list':
-            dices.append(dice)
-        else:
+        if isinstance(dice, list):
             dices = dice
+        else:
+            dices.append(dice)
         self.__dice = dices
+
+    @property
+    def dice(self):
+        return self.__dice
 
     def setProof(self, vol):
         # Сохранить значение проходимой проверки
@@ -110,10 +120,10 @@ class Answer:
         # Сохранить количество успехов
         # Результат хранится в массиве
         hits = []
-        if type(list) != 'list':
-            hits.append(hit)
-        else:
+        if isinstance(hit, list):
             hits = hit
+        else:
+            hits.append(hit)
         self.__lvl_hit = hits
 
     @property
@@ -123,6 +133,12 @@ class Answer:
     def setRounds(self, vol):
         # Сохранить длительность проверки
         self.__rounds = vol
+
+    def setSuccess(self, vol):
+        # Сохранить необходимое количество успехов
+        self.__success = vol
+
+
 
     def setCodeEnemy(self, vol):
         # Сохранить код успешности проверки противника
@@ -136,11 +152,15 @@ class Answer:
         # Сохранить значение выпавшее на кубах
         # Результат хранится в массиве
         dices = []
-        if type(list) != 'list':
-            dices.append(dice_enemy)
-        else:
+        if isinstance(dice_enemy, list):
             dices = dice_enemy
+        else:
+            dices.append(dice_enemy)
         self.__dice_enemy = dices
+
+    @property
+    def dice_enemy(self):
+        return self.__dice_enemy
 
     def setProofEnemy(self, vol):
         # Сохранить значение проходимой проверки
@@ -154,15 +174,23 @@ class Answer:
         # Сохранить количество успехов
         # Результат хранится в массиве
         hits = []
-        if type(list) != 'list':
-            hits.append(hit_enemy)
-        else:
+        if isinstance(hit_enemy, list):
             hits = hit_enemy
+        else:
+            hits.append(hit_enemy)
         self.__lvl_hit_enemy = hits
+
+    @property
+    def lvl_hit_enemy(self):
+        return self.__lvl_hit_enemy
 
     def setRoundsEnemy(self, vol):
         # Сохранить длительность проверки противника
         self.__rounds_enemy = vol
+
+    def setSuccessEnemy(self, vol):
+        # Сохранить необходимое количество успехов противника
+        self.__success_enemy = vol
 
     def getAnswer(self):
         # Сформировать и получить ответ

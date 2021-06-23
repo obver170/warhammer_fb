@@ -89,7 +89,6 @@ class Check:
         if self.checkGuaranteed(dice):
             answer.setCode(self.checkGuaranteed(dice))
             return answer
-        print(f'Бросок кубика {dice} против {proof}')
         if proof + modifier - dice >= 0:
             answer.setCode('1001')
         else:
@@ -101,9 +100,10 @@ class Check:
         # Определяет количество успехов в текущей проверке
         return (proof+modifier) // 10 - dice // 10
 
-    def setHitsLongCheck(self, hits):
-        # Сохраняет текущую длительную проверку
-        self.hits_long_check = hits
+    # def setHitsLongCheck(self, hits):
+    #     # Сохраняет текущую длительную проверку
+    #     # скоро удалить
+    #     self.hits_long_check = hits
 
     def extendedCheck(self, proof, dice, modifier=0, set_i=0):
         # Расширенная проверка, без проверки на гарантированные исходы.
@@ -129,7 +129,7 @@ class Check:
             elif answer.lvl_hit[i] <= -2:
                 answer.setCode('-1001')
             else:
-                answer.setCode[i]('-1002')
+                answer.setCode('-1002')
         if answer.lvl_hit[i] >= 0:
             if answer.lvl_hit[i] >= 6:
                 answer.setCode('1004')
@@ -143,24 +143,66 @@ class Check:
         return answer
 
 
+    # def longCheck(self, proof, dices, rounds, success=0, modifier=0):
+    #     # Метод для проведения длительной проверки.
+    #     # Для успешного выполнения необходимо набрать определенное количество успехов за ограниченное время раундов
+    #     # rounds - количество раундов отведенное на проверку
+    #     # success - необходимое количество успехов, для выполнения действия
+    #     answer = Answer('LONG')
+    #     answer.setProof(proof)
+    #     answer.setDice(dices)
+    #     answer.setRounds(rounds)
+    #     answer.setSuccess(success)
+    #     answer.setModifier(modifier)
+    #
+    #
+    #     i = 0
+    #     hits = []
+    #     for round in range(1, rounds+1):
+    #         dice = dices[i]
+    #         check = self.extendedCheck(proof, dice, modifier)
+    #         i += 1
+    #         hits.append(self.lvl_hit)
+    #         success = success - self.lvl_hit
+    #         if success <= 0:
+    #             self.setHitsLongCheck(hits)
+    #             return '1001'
+    #     self.setHitsLongCheck(hits)
+    #     return '-1001'
+
     def longCheck(self, proof, dices, rounds, success=0, modifier=0):
-        #  Метод для проведения длительной проверки.
-        #  Для успешного выполнения необходимо набрать определенное количество успехов за ограниченное время раундов
-        #  rounds - количество раундов отведенное на проверку
+        # Метод для проведения длительной проверки.
+        # Для успешного выполнения необходимо набрать определенное количество успехов за ограниченное время раундов
+        # rounds - количество раундов отведенное на проверку
         # success - необходимое количество успехов, для выполнения действия
+        answer = Answer('LONG')
+        answer.setProof(proof)
+        answer.setDice(dices)
+        answer.setRounds(rounds)
+        answer.setSuccess(success)
+        answer.setModifier(modifier)
+
+
         i = 0
         hits = []
         for round in range(1, rounds+1):
             dice = dices[i]
-            check = self.extendedCheck(proof, dice, modifier)
+            lvl_hit = self.setLvlHit(proof, dice, modifier)
+            hits.append(lvl_hit)
+
             i += 1
-            hits.append(self.lvl_hit)
-            success = success - self.lvl_hit
+
+            success = success - lvl_hit
             if success <= 0:
-                self.setHitsLongCheck(hits)
-                return '1001'
-        self.setHitsLongCheck(hits)
-        return '-1001'
+                answer.setCode('1001')
+                answer.setLvlHit(hits)
+                return answer
+
+        answer.setLvlHit(hits)
+        answer.setCode('-1001')
+        return answer
+
+
 
 
     def counterCheck(self, proof_one, dice_one, proof_two, dice_two, modifier_one=0, modifier_two=0):
@@ -185,7 +227,17 @@ check.critical_fail = 96
 d100 = dice.throwDice()
 
 simple_check = check.simpleCheck(60, d100, -20)
+print(simple_check.code_type)
 print(simple_check)
 
+
+d100 = dice.throwDice()
 extended_check = check.extendedCheck(60, d100, 10)
+print(extended_check.code_type)
 print(extended_check)
+
+
+dices = dice.throwDices100(10)
+long_check = check.longCheck(60, dices, 10, 6, -10)
+print(long_check.code_type)
+print(long_check)
