@@ -221,12 +221,24 @@ class Check:
         # Метод для мгновенной встречной проверки
         # Принимает массив объектов Answer сформированных методом extendedCheck
         res = None
-        min = -1000
+        min_hit = -1000
+        min_skill = -100
         for answer in answers:
-            if answer.lvl_hit[0] > min:
-                min = answer.lvl_hit[0]
+            if answer.lvl_hit[0] > min_hit:
+                min_hit = answer.lvl_hit[0]
+                min_skill = answer.prof
                 res = answer
+            # Если количество успехов при встречной проверке одинаковое
+            # сравнивается показатель навыка, у кого выше - тот и победил
+            if answer.lvl_hit[0] == min_hit:
+                if answer.prof > min_skill:
+                    min_hit = answer.lvl_hit[0]
+                    min_skill = answer.prof
+                    res = answer
+
         res.type_check ='COUNTER'
+        for answer in answers:
+            res.addParticipants(answer)
         return res
 
 
@@ -262,12 +274,13 @@ print('Встречная проверка')
 proof = 60
 mod = 10
 answers = []
-answers.append(check.extendedCheck(proof, dice.throwDice(), mod, name='Тирг'))
-answers.append(check.extendedCheck(proof, dice.throwDice(), mod, name='Олень'))
-answers.append(check.extendedCheck(proof, dice.throwDice(), mod, name='Медведь'))
+answers.append(check.extendedCheck(10, dice.throwDice(), mod, name='Тирг'))
+answers.append(check.extendedCheck(70, 20, mod, name='Олень'))
+answers.append(check.extendedCheck(60, 10, mod, name='Медведь'))
 
 winner = check.counterCheck(answers)
 for a in answers:
     print(a)
 print('Победитель')
 print(winner)
+

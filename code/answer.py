@@ -14,6 +14,7 @@ class Answer:
     # 'rounds': 'длительность проверки'
     # 'name': 'имя проверки'
     # 'date': 'дата и время проведения проверки'
+    # 'participants': 'список, состоящий из объектов Answer(), других участников проверки'
     # }
 
     CODE_TYPE_CHECK = (
@@ -34,6 +35,7 @@ class Answer:
         self.__lvl_hit = None
         self.__rounds = None
         self.__success = None
+        self.__participants = []
 
 
     def __repr__(self):
@@ -92,6 +94,10 @@ class Answer:
         # Сохранить значение проходимой проверки
         self.__proof = vol
 
+    @property
+    def prof(self):
+        return self.__proof
+
     def setModifier(self, vol):
         # Сохранить значение модификаторов проверки
         self.__modifier = vol
@@ -131,6 +137,13 @@ class Answer:
     def date(self):
         return self.__date
 
+    def addParticipants(self, answer):
+        # Сохранить в ответе результат участника проверки
+        self.__participants.append(answer)
+
+    @property
+    def participants(self):
+        return self.__participants
 
 
     def getAnswer(self):
