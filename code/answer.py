@@ -162,7 +162,7 @@ class Answer:
         return context
 
 
-a = Answer('SIMPLE')
-print(a.getAnswer())
-print(a.date)
+# a = Answer('SIMPLE')
+# print(a.getAnswer())
+# print(a.date)
 

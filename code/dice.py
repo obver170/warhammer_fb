@@ -1,5 +1,6 @@
 import random
 
+
 class Dice:
     # Класс для получения результата или результатов броска кубика
     def __init__(self):
@@ -25,3 +26,19 @@ class Dice:
             dice = self.throwDice(10)
             res.append(dice)
         return res
+
+    def isDouble(self, dice):
+        # Проверка на то, является ли бросок дублем
+        tens = dice // 10
+        if tens != 0:
+            unit = dice - tens * 10
+            if tens == unit:
+                return True
+        return False
+
+    def isEvenDouble(self, dice):
+        # Проверка является бросок четным дублем
+        if self.isDouble(dice):
+            if dice % 2 == 0:
+                return True
+        return False
