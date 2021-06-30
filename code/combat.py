@@ -1,5 +1,6 @@
 from warhammer_fb.code.check import Check
 from warhammer_fb.code.dice import Dice
+from dataclasses import dataclass, field
 
 
 # Минимальными действиями в битве являются Атака в ближнего боя и Атака дальнего боя
@@ -13,6 +14,23 @@ from warhammer_fb.code.dice import Dice
 # Атаки ближнего боя бывают:
 # Обычная атака ББ
 # Атака с разгона
+
+
+
+# Подумать нужен ли
+@dataclass
+class DataCombat:
+    # Попал или нет
+    isHit: bool
+    # Значение кубика
+    dice: int
+    # Количество успехов
+    lvl_hit: int
+
+
+
+
+
 
 class Combat:
 
