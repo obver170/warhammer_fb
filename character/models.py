@@ -58,7 +58,6 @@ class Sex(models.Model):
         verbose_name_plural = 'Пол'
 
 
-
 class Metal(models.Model):
     # Сословие
     METAL = (
@@ -111,3 +110,143 @@ class Status(models.Model):
     class Meta:
         verbose_name = 'Статус'
         verbose_name_plural = 'Статусы'
+
+
+class Talent(models.Model):
+    # Описание талантов
+    name_talent = models.CharField(max_length=30, verbose_name='Название таланта')
+    description = models.TextField(verbose_name='Описание таланта', blank=True)
+    max_rank = models.CharField(max_length=100, verbose_name='Максимальный уровень таланта', blank=True)
+
+    def __str__(self):
+        return self.name_talent
+
+    class Meta:
+        verbose_name = 'Талант'
+        verbose_name_plural = 'Таланты'
+
+
+class CurrentTalent(models.Model):
+    # Талант и его текущий уровень
+    talent = models.ForeignKey(Talent, on_delete=models.CASCADE, verbose_name='Талант')
+    rank = models.CharField(max_length=3, verbose_name='Уровень таланта', default='1')
+
+    def __str__(self):
+        return f'{self.talent} ({self.rank})'
+
+    class Meta:
+        verbose_name = 'Талант и его текущий уровень'
+        verbose_name_plural = 'Талант и его текущий уровень'
+
+
+class Class(models.Model):
+    name_class = models.CharField(max_length=15, verbose_name='Название класса')
+    description = models.TextField(verbose_name='Описание класса', blank=True)
+
+    def __str__(self):
+        return self.name_class
+
+    class Meta:
+        verbose_name = 'Класс'
+        verbose_name_plural = 'Классы'
+
+
+class Career(models.Model):
+    # Карьера
+    name_career = models.CharField(max_length=35, verbose_name='Название карьеры')
+    description = models.TextField(verbose_name='Описание карьеры', blank=True)
+    name_class = models.ForeignKey(Class, on_delete=models.CASCADE, verbose_name='Название класса')
+
+    def __str__(self):
+        return f'карьера: {self.name_career}, класс: {self.name_class}'
+
+    class Meta:
+        verbose_name = 'Карьера'
+        verbose_name_plural = 'Карьеры'
+
+
+class Species(models.Model):
+    # Ступень карьеры/должность
+    name_species = models.CharField(max_length=40, verbose_name='Название ступени карьеры (должность)')
+    step = models.CharField(max_length=2, verbose_name='Порядковый номер ступени')
+    career = models.ForeignKey(Career, on_delete=models.CASCADE, verbose_name='Карьера')
+    is_current = models.BooleanField(default=False, verbose_name='Текущая должность')
+
+    def __str__(self):
+        return f'Должность: {self.name_species}, {self.career}. Текущая должность? - {self.is_current}'
+
+    class Meta:
+        verbose_name = 'Должность'
+        verbose_name_plural = 'Должности'
+
+
+class Attribute(models.Model):
+    # Атрибут
+    name_attribute = models.CharField(max_length=20, verbose_name='Название атрибута')
+    description = models.TextField(verbose_name='Описание атрибута', blank=True)
+    start = models.CharField(max_length=3, verbose_name='Начальное значение')
+    steps = models.CharField(max_length=3, verbose_name='Сделанные шаги', blank=True)
+
+    def __str__(self):
+        return self.name_attribute
+
+    class Meta:
+        verbose_name = 'Атрибут'
+        verbose_name_plural = 'Атрибуты'
+
+
+class SetAttributes(models.Model):
+    # Набор атрибутов
+    name_set_attribute = models.CharField(max_length=30, verbose_name='Название набора атрибутов', blank=True)
+    attributes = models.ManyToManyField(Attribute, verbose_name='Набор атрибутов')
+
+    def __str__(self):
+        return self.name_set_attribute
+
+    class Meta:
+        verbose_name = 'Набор атрибутов'
+        verbose_name_plural = 'Набор атрибутов'
+
+
+class Skill(models.Model):
+    # Навыки
+    name_skill = models.CharField(max_length=30, verbose_name='Название навыка')
+    description = models.TextField(verbose_name='Описание навыка', blank=True)
+    start = models.CharField(max_length=3, verbose_name='Начальное значение')
+    steps = models.CharField(max_length=3, verbose_name='Сделанные шаги', blank=True)
+    is_other = models.BooleanField(default=False, verbose_name='Является общим навыком?')
+    base_attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Базовый атрибут')
+
+    def __str__(self):
+        return self.name_skill
+
+    class Meta:
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Навыки'
+
+
+class Character(models.Model):
+    # Персонаж
+    name = models.CharField(max_length=20, verbose_name='Имя', default='Рик')
+    age = models.CharField(max_length=4, verbose_name='Возраст', default='33')
+    height = models.CharField(max_length=4, verbose_name='Рост', default='174')
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE, verbose_name='Пол')
+    eyes = models.ForeignKey(Eyes, on_delete=models.CASCADE, verbose_name='Глаза')
+    hair = models.ForeignKey(Hair, on_delete=models.CASCADE, verbose_name='Волосы')
+    nation = models.ForeignKey(Nation, on_delete=models.CASCADE, verbose_name='Народ')
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Статус персонажа')
+    talents = models.ManyToManyField(CurrentTalent, verbose_name='Таланты')
+    species = models.ManyToManyField(Species, verbose_name='Должности', blank=True)
+    set_attributes = models.ForeignKey(SetAttributes, on_delete=models.CASCADE, verbose_name='Набор атрибутов', null=True)
+    skills = models.ManyToManyField(Skill, verbose_name='Навыки', null=True)
+
+
+
+
+
+    def __str__(self):
+        return f'{self.name} из народа {self.nation}'
+
+    class Meta:
+        verbose_name = 'Персонаж'
+        verbose_name_plural = 'Персонажи'
