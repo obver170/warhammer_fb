@@ -42,3 +42,6 @@ class Dice:
             if dice % 2 == 0:
                 return True
         return False
+
+
+
