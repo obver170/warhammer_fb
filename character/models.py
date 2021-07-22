@@ -180,45 +180,70 @@ class Species(models.Model):
         verbose_name_plural = 'Должности'
 
 
-class Attribute(models.Model):
-    # Атрибут
-    name_attribute = models.CharField(max_length=20, verbose_name='Название атрибута')
-    description = models.TextField(verbose_name='Описание атрибута', blank=True)
-    start = models.CharField(max_length=3, verbose_name='Начальное значение')
-    steps = models.CharField(max_length=3, verbose_name='Сделанные шаги', blank=True)
+class NameAttribute(models.Model):
+    # Название характеристики
+    name_attribute = models.CharField(max_length=20, verbose_name='Название характеристики')
+    description = models.TextField(verbose_name='Описание характеристики', blank=True)
 
     def __str__(self):
         return self.name_attribute
 
     class Meta:
-        verbose_name = 'Атрибут'
-        verbose_name_plural = 'Атрибуты'
+        verbose_name = 'Название характеристики'
+        verbose_name_plural = 'Название характеристики'
+
+
+class Attribute(models.Model):
+    # Характеристика
+    name_attribute = models.ForeignKey(NameAttribute, on_delete=models.CASCADE, verbose_name='Название характеристики')
+    start = models.CharField(max_length=3, verbose_name='Начальное значение')
+    steps = models.CharField(max_length=3, verbose_name='Сделанные шаги', blank=True)
+
+    def __str__(self):
+        return f'{self.name_attribute} - {self.start} - {self.steps}'
+
+    class Meta:
+        verbose_name = 'Характеристика'
+        verbose_name_plural = 'Характеристики'
 
 
 class SetAttributes(models.Model):
     # Набор атрибутов
-    name_set_attribute = models.CharField(max_length=30, verbose_name='Название набора атрибутов', blank=True)
-    attributes = models.ManyToManyField(Attribute, verbose_name='Набор атрибутов')
+    name_set_attribute = models.CharField(max_length=30, verbose_name='Название набора характеристик', blank=True)
+    attributes = models.ManyToManyField(Attribute, verbose_name='Набор характеристик')
 
     def __str__(self):
         return self.name_set_attribute
 
     class Meta:
-        verbose_name = 'Набор атрибутов'
-        verbose_name_plural = 'Набор атрибутов'
+        verbose_name = 'Набор характеристик'
+        verbose_name_plural = 'Набор характеристик'
+
+
+class NameSkill(models.Model):
+    # Название навыка
+    name_skill = models.CharField(max_length=30, verbose_name='Название навыка')
+    specialization = models.CharField(max_length=30, verbose_name='Специализация навыка', blank=True)
+    description = models.TextField(verbose_name='Описание навыка', blank=True)
+    is_other = models.BooleanField(default=False, verbose_name='Является общим навыком?')
+    base_attribute = models.ForeignKey(NameAttribute, on_delete=models.CASCADE, verbose_name='Базовая характеристика')
+
+    def __str__(self):
+        return self.name_skill
+
+    class Meta:
+        verbose_name = 'Название навыка'
+        verbose_name_plural = 'Название навыка'
 
 
 class Skill(models.Model):
     # Навыки
-    name_skill = models.CharField(max_length=30, verbose_name='Название навыка')
-    description = models.TextField(verbose_name='Описание навыка', blank=True)
+    name_skill = models.ForeignKey(NameSkill, on_delete=models.CASCADE, verbose_name='Название навыка')
     start = models.CharField(max_length=3, verbose_name='Начальное значение')
     steps = models.CharField(max_length=3, verbose_name='Сделанные шаги', blank=True)
-    is_other = models.BooleanField(default=False, verbose_name='Является общим навыком?')
-    base_attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Базовый атрибут')
 
     def __str__(self):
-        return self.name_skill
+        return f'{self.name_skill} - {self.start} - {self.steps}'
 
     class Meta:
         verbose_name = 'Навык'
@@ -237,9 +262,10 @@ class Character(models.Model):
     status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Статус персонажа')
     talents = models.ManyToManyField(CurrentTalent, verbose_name='Таланты')
     species = models.ManyToManyField(Species, verbose_name='Должности', blank=True)
-    set_attributes = models.ForeignKey(SetAttributes, on_delete=models.CASCADE, verbose_name='Набор атрибутов',
-                                       null=True)
-    skills = models.ManyToManyField(Skill, verbose_name='Навыки', null=True)
+    attributes = models.ManyToManyField(Attribute, verbose_name='Характеристики')
+    # set_attributes = models.ForeignKey(SetAttributes, on_delete=models.CASCADE, verbose_name='Набор атрибутов',
+    #                                    null=True)
+    skills = models.ManyToManyField(Skill, verbose_name='Навыки')
 
     def __str__(self):
         return f'{self.name} из народа {self.nation}'
