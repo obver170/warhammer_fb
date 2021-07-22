@@ -237,12 +237,9 @@ class Character(models.Model):
     status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Статус персонажа')
     talents = models.ManyToManyField(CurrentTalent, verbose_name='Таланты')
     species = models.ManyToManyField(Species, verbose_name='Должности', blank=True)
-    set_attributes = models.ForeignKey(SetAttributes, on_delete=models.CASCADE, verbose_name='Набор атрибутов', null=True)
+    set_attributes = models.ForeignKey(SetAttributes, on_delete=models.CASCADE, verbose_name='Набор атрибутов',
+                                       null=True)
     skills = models.ManyToManyField(Skill, verbose_name='Навыки', null=True)
-
-
-
-
 
     def __str__(self):
         return f'{self.name} из народа {self.nation}'
