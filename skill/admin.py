@@ -16,6 +16,7 @@ admin.site.register(Veterinarian)
 admin.site.register(Grade)
 admin.site.register(SecretSigns)
 admin.site.register(Language)
+admin.site.register(Prayer)
 
 
 
@@ -25,3 +26,9 @@ admin.site.register(Language)
 admin.site.register(OtherSkillList)
 admin.site.register(Gamble)
 admin.site.register(OutdoorSurvival)
+admin.site.register(Entertain)
+admin.site.register(Leadership)
+admin.site.register(Charm)
+admin.site.register(Bribery)
+admin.site.register(Gossip)
+admin.site.register(Haggle)
