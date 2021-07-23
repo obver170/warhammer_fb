@@ -212,6 +212,16 @@ class Bribery(BaseSkill):
         verbose_name_plural = 'Подкуп'
 
 
+class Gossip(BaseSkill):
+    name_skill = 'Сплетничество'
+    base_attribute = 'Харизма'
+    type_skill = 'Общий'
+
+    class Meta:
+        verbose_name = 'Сплетничество'
+        verbose_name_plural = 'Сплетничество'
+
+
 class OtherSkillList(models.Model):
     name_list = models.CharField(max_length=20, verbose_name='Название набора', default='Общие навыки')
 
@@ -220,8 +230,9 @@ class OtherSkillList(models.Model):
                                         verbose_name=OutdoorSurvival.name_skill, null=True)
     entertain = models.ForeignKey(Entertain, on_delete=models.CASCADE, verbose_name=Entertain.name_skill, null=True)
     leadership = models.ForeignKey(Leadership, on_delete=models.CASCADE, verbose_name=Leadership.name_skill, null=True)
-    сharm = models.ForeignKey(Charm, on_delete=models.CASCADE, verbose_name=Charm.name_skill, null=True)
+    charm = models.ForeignKey(Charm, on_delete=models.CASCADE, verbose_name=Charm.name_skill, null=True)
     bribery = models.ForeignKey(Bribery, on_delete=models.CASCADE, verbose_name=Bribery.name_skill, null=True)
+    gossip = models.ForeignKey(Gossip, on_delete=models.CASCADE, verbose_name=Gossip.name_skill, null=True)
 
     def __str__(self):
         return self.name_list

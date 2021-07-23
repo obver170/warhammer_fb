@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import ProfessionalSkillList, OtherSkillList, Gamble, OutdoorSurvival, TrainingOfAnimals, Knowledge, \
-    BookSearches, Treatment, Veterinarian, Grade, SecretSigns, Language, Entertain, Leadership, Charm, Bribery
+    BookSearches, Treatment, Veterinarian, Grade, SecretSigns, Language, Entertain, Leadership, Charm, Bribery, Gossip
 
 
 
