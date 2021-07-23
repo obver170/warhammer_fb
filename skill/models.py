@@ -2,6 +2,8 @@ from django.db import models
 
 
 # Create your models here.
+
+
 class BaseSkill(models.Model):
     # Базовый класс
     name_skill: str = 'Не указан'
@@ -161,12 +163,33 @@ class Language(BaseSkill):
         verbose_name_plural = 'Язык'
 
 
+class Entertain(BaseSkill):
+    name_skill = 'Артистизм'
+    base_attribute = 'Харизма'
+    type_skill = 'Общий'
+
+    specialization = (
+        ('Актерство', 'Актерство'),
+        ('Комедия', 'Комедия'),
+        ('Пение', 'Пение'),
+        ('Сказительство', 'Сказительство'),
+    )
+
+    special = models.CharField(max_length=25, verbose_name='Специализация', choices=specialization, default=0)
+
+    class Meta:
+        verbose_name = 'Артистизм'
+        verbose_name_plural = 'Артистизм'
+
+
 class OtherSkillList(models.Model):
     name_list = models.CharField(max_length=20, verbose_name='Название набора', default='Общие навыки')
 
     gamble = models.ForeignKey(Gamble, on_delete=models.CASCADE, verbose_name=Gamble.name_skill)
     outdoorSurvival = models.ForeignKey(OutdoorSurvival, on_delete=models.CASCADE,
                                         verbose_name=OutdoorSurvival.name_skill, null=True)
+    entertain = models.ForeignKey(Entertain, on_delete=models.CASCADE,
+                                  verbose_name=Entertain.name_skill, null=True)
 
     def __str__(self):
         return self.name_list
@@ -194,7 +217,7 @@ class ProfessionalSkillList(models.Model):
     secretSigns = models.ForeignKey(SecretSigns, on_delete=models.CASCADE, verbose_name=SecretSigns.name_skill,
                                     null=True, blank=True)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, verbose_name=Language.name_skill,
-                                    null=True, blank=True)
+                                 null=True, blank=True)
 
     def __str__(self):
         return self.name_list
