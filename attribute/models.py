@@ -4,18 +4,6 @@ from django.db import models
 # Create your models here.
 
 
-class Step(models.Model):
-    # На удаление
-    step = models.CharField(max_length=3, verbose_name='Значение', default='0')
-
-    def __str__(self):
-        return self.step
-
-    class Meta:
-        verbose_name = 'Шаги развития'
-        verbose_name_plural = 'Шаги развития'
-
-
 class BaseAttribute(models.Model):
     # Основа для всех характеристик
     name_attribute: str = ''
@@ -120,9 +108,9 @@ class AttributeList(models.Model):
     fellowship = models.ForeignKey(Fellowship, on_delete=models.CASCADE, verbose_name='Харизма')
 
     def __str__(self):
-        return f'{self.weaponSkill}, {self.ballisticSkill}, {self.strength}, ' \
-               f'{self.toughness}, {self.initiative}, { self.agility}, {self.dexterity}' \
-               f' {self.intelligence}, {self.willpower}, {self.fellowship}'
+        return f'ББ:{self.weaponSkill}, ДБ:{self.ballisticSkill}, С:{self.strength}, ' \
+               f'В:{self.toughness}, И:{self.initiative}, Пр:{ self.agility}, Л:{self.dexterity}' \
+               f' Инт:{self.intelligence}, СВ:{self.willpower}, Х:{self.fellowship}'
 
     class Meta:
         verbose_name = 'Набор характеристик'
