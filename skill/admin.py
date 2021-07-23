@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Gamble, SkillList, OutdoorSurvival, TrainingOfAnimals, Knowledge, BookExquisites
+from .models import Gamble, SkillList, OutdoorSurvival, TrainingOfAnimals, Knowledge, BookSearches, Treatment
 
 # Register your models here.
 

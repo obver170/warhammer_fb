@@ -35,6 +35,15 @@ class OutdoorSurvival(BaseSkill):
 
 
 class TrainingOfAnimals(BaseSkill):
+    specialization = (
+        ('Голуби', 'Голуби'),
+        ('Демигрифы', 'Демигрифы'),
+        ('Лошади', 'Лошади'),
+        ('Пегасы', 'Пегасы'),
+        ('Собаки', 'Собаки'),
+    )
+    special = models.CharField(max_length=25, verbose_name='Специализация', choices=specialization, default=0)
+
     base_attribute = 'Интеллект'
     name_skill = 'Дрессировка'
     type_skill = 'Профессиональный'
@@ -68,7 +77,7 @@ class Knowledge(BaseSkill):
         verbose_name_plural = 'Знания'
 
 
-class BookExquisites(BaseSkill):
+class BookSearches (BaseSkill):
     base_attribute = 'Интеллект'
     name_skill = 'Книжные изыскания'
     type_skill = 'Профессиональный'
@@ -76,6 +85,26 @@ class BookExquisites(BaseSkill):
     class Meta:
         verbose_name = 'Книжные изыскания'
         verbose_name_plural = 'Книжные изыскания'
+
+
+class Treatment (BaseSkill):
+    base_attribute = 'Интеллект'
+    name_skill = 'Лечение'
+    type_skill = 'Профессиональный'
+
+    class Meta:
+        verbose_name = 'Лечение'
+        verbose_name_plural = 'Лечение'
+
+
+class Veterinarian (BaseSkill):
+    base_attribute = 'Интеллект'
+    name_skill = 'Обращение с животными'
+    type_skill = 'Профессиональный'
+
+    class Meta:
+        verbose_name = 'Обращение с животными'
+        verbose_name_plural = 'Обращение с животными'
 
 
 class SkillList(models.Model):
@@ -87,7 +116,11 @@ class SkillList(models.Model):
                                           verbose_name=TrainingOfAnimals.name_skill, null=True, blank=True)
     knowledge = models.ForeignKey(Knowledge, on_delete=models.CASCADE, verbose_name=Knowledge.name_skill,
                                   null=True, blank=True)
-    bookExquisites = models.ForeignKey(BookExquisites, on_delete=models.CASCADE, verbose_name=BookExquisites.name_skill,
+    bookSearches = models.ForeignKey(BookSearches, on_delete=models.CASCADE, verbose_name=BookSearches.name_skill,
+                                       null=True, blank=True)
+    treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE, verbose_name=Treatment.name_skill,
+                                       null=True, blank=True)
+    veterinarian = models.ForeignKey(Veterinarian, on_delete=models.CASCADE, verbose_name=Veterinarian.name_skill,
                                        null=True, blank=True)
 
     def __str__(self):
