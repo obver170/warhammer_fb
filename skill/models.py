@@ -37,6 +37,10 @@ class OutdoorSurvival(BaseSkill):
 
 
 class TrainingOfAnimals(BaseSkill):
+    base_attribute = 'Интеллект'
+    name_skill = 'Дрессировка'
+    type_skill = 'Профессиональный'
+
     specialization = (
         ('Голуби', 'Голуби'),
         ('Демигрифы', 'Демигрифы'),
@@ -46,16 +50,16 @@ class TrainingOfAnimals(BaseSkill):
     )
     special = models.CharField(max_length=25, verbose_name='Специализация', choices=specialization, default=0)
 
-    base_attribute = 'Интеллект'
-    name_skill = 'Дрессировка'
-    type_skill = 'Профессиональный'
-
     class Meta:
         verbose_name = 'Дрессировка'
         verbose_name_plural = 'Дрессировка'
 
 
 class Knowledge(BaseSkill):
+    base_attribute = 'Интеллект'
+    name_skill = 'Знания'
+    type_skill = 'Профессиональный'
+
     specialization = (
         ('Геология', 'Геология'),
         ('Геральдика', 'Геральдика'),
@@ -69,10 +73,6 @@ class Knowledge(BaseSkill):
     )
 
     special = models.CharField(max_length=25, verbose_name='Специализация', choices=specialization, default=0)
-
-    base_attribute = 'Интеллект'
-    name_skill = 'Знания'
-    type_skill = 'Профессиональный'
 
     class Meta:
         verbose_name = 'Знания'
@@ -166,7 +166,6 @@ class Language(BaseSkill):
 class Entertain(BaseSkill):
     name_skill = 'Артистизм'
     base_attribute = 'Харизма'
-    type_skill = 'Общий'
 
     specialization = (
         ('Актерство', 'Актерство'),
@@ -185,7 +184,6 @@ class Entertain(BaseSkill):
 class Leadership(BaseSkill):
     name_skill = 'Лидерство'
     base_attribute = 'Харизма'
-    type_skill = 'Общий'
 
     class Meta:
         verbose_name = 'Лидерство'
@@ -195,7 +193,6 @@ class Leadership(BaseSkill):
 class Charm(BaseSkill):
     name_skill = 'Обаяние'
     base_attribute = 'Харизма'
-    type_skill = 'Общий'
 
     class Meta:
         verbose_name = 'Обаяние'
@@ -205,7 +202,6 @@ class Charm(BaseSkill):
 class Bribery(BaseSkill):
     name_skill = 'Подкуп'
     base_attribute = 'Харизма'
-    type_skill = 'Общий'
 
     class Meta:
         verbose_name = 'Подкуп'
@@ -215,11 +211,29 @@ class Bribery(BaseSkill):
 class Gossip(BaseSkill):
     name_skill = 'Сплетничество'
     base_attribute = 'Харизма'
-    type_skill = 'Общий'
 
     class Meta:
         verbose_name = 'Сплетничество'
         verbose_name_plural = 'Сплетничество'
+
+
+class Haggle(BaseSkill):
+    name_skill = 'Торговля'
+    base_attribute = 'Харизма'
+
+    class Meta:
+        verbose_name = 'Торговля'
+        verbose_name_plural = 'Торговля'
+
+
+class Prayer(BaseSkill):
+    name_skill = 'Молитвословие'
+    base_attribute = 'Харизма'
+    type_skill = 'Профессиональный'
+
+    class Meta:
+        verbose_name = 'Молитвословие'
+        verbose_name_plural = 'Молитвословие'
 
 
 class OtherSkillList(models.Model):
@@ -233,6 +247,7 @@ class OtherSkillList(models.Model):
     charm = models.ForeignKey(Charm, on_delete=models.CASCADE, verbose_name=Charm.name_skill, null=True)
     bribery = models.ForeignKey(Bribery, on_delete=models.CASCADE, verbose_name=Bribery.name_skill, null=True)
     gossip = models.ForeignKey(Gossip, on_delete=models.CASCADE, verbose_name=Gossip.name_skill, null=True)
+    haggle = models.ForeignKey(Haggle, on_delete=models.CASCADE, verbose_name=Haggle.name_skill, null=True)
 
     def __str__(self):
         return self.name_list
@@ -261,6 +276,8 @@ class ProfessionalSkillList(models.Model):
                                     null=True, blank=True)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, verbose_name=Language.name_skill,
                                  null=True, blank=True)
+    prayer = models.ForeignKey(Prayer, on_delete=models.CASCADE, verbose_name=Prayer.name_skill,
+                               null=True, blank=True)
 
     def __str__(self):
         return self.name_list
