@@ -182,14 +182,46 @@ class Entertain(BaseSkill):
         verbose_name_plural = 'Артистизм'
 
 
+class Leadership(BaseSkill):
+    name_skill = 'Лидерство'
+    base_attribute = 'Харизма'
+    type_skill = 'Общий'
+
+    class Meta:
+        verbose_name = 'Лидерство'
+        verbose_name_plural = 'Лидерство'
+
+
+class Charm(BaseSkill):
+    name_skill = 'Обаяние'
+    base_attribute = 'Харизма'
+    type_skill = 'Общий'
+
+    class Meta:
+        verbose_name = 'Обаяние'
+        verbose_name_plural = 'Обаяние'
+
+
+class Bribery(BaseSkill):
+    name_skill = 'Подкуп'
+    base_attribute = 'Харизма'
+    type_skill = 'Общий'
+
+    class Meta:
+        verbose_name = 'Подкуп'
+        verbose_name_plural = 'Подкуп'
+
+
 class OtherSkillList(models.Model):
     name_list = models.CharField(max_length=20, verbose_name='Название набора', default='Общие навыки')
 
     gamble = models.ForeignKey(Gamble, on_delete=models.CASCADE, verbose_name=Gamble.name_skill)
     outdoorSurvival = models.ForeignKey(OutdoorSurvival, on_delete=models.CASCADE,
                                         verbose_name=OutdoorSurvival.name_skill, null=True)
-    entertain = models.ForeignKey(Entertain, on_delete=models.CASCADE,
-                                  verbose_name=Entertain.name_skill, null=True)
+    entertain = models.ForeignKey(Entertain, on_delete=models.CASCADE, verbose_name=Entertain.name_skill, null=True)
+    leadership = models.ForeignKey(Leadership, on_delete=models.CASCADE, verbose_name=Leadership.name_skill, null=True)
+    сharm = models.ForeignKey(Charm, on_delete=models.CASCADE, verbose_name=Charm.name_skill, null=True)
+    bribery = models.ForeignKey(Bribery, on_delete=models.CASCADE, verbose_name=Bribery.name_skill, null=True)
 
     def __str__(self):
         return self.name_list
