@@ -20,10 +20,9 @@ class BaseAttribute(models.Model):
     # Основа для всех характеристик
     name_attribute: str = ''
     initial_meaning = models.CharField(max_length=3, verbose_name='Начальное значение', default='0')
-    description = models.TextField(verbose_name='Описание характеристики', blank=True)
 
     def __str__(self):
-        return f'{self.name_attribute} - {self.initial_meaning}'
+        return f'{self.initial_meaning}'
 
 
 class WeaponSkill(BaseAttribute):
@@ -108,6 +107,7 @@ class Fellowship(BaseAttribute):
 
 class AttributeList(models.Model):
 
+    name_list = models.CharField(max_length=20, verbose_name='Название набора', default='Стандарт')
     weaponSkill = models.ForeignKey(WeaponSkill, on_delete=models.CASCADE, verbose_name='Ближний бой')
     ballisticSkill = models.ForeignKey(BallisticSkill, on_delete=models.CASCADE, verbose_name='Дальний бой')
     strength = models.ForeignKey(Strength, on_delete=models.CASCADE, verbose_name='Сила')
