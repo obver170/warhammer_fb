@@ -1,7 +1,7 @@
 from django.db import models
 
 from attribute.models import AttributeList
-from skill2.models import SkillOther, SkillPro
+from skill2.models import ListOtherSkills, ListProSkills
 
 # Create your models here.
 nation_list = ('Человек', 'Полурослик', 'Гном', 'Высший эльф', 'Лесной эльф')
@@ -66,8 +66,10 @@ class Character(models.Model):
     add_willpower = models.CharField(max_length=3, verbose_name='Шаги в Сила воли', default='0')
     add_fellowship = models.CharField(max_length=3, verbose_name='Шаги в Харизма', default='0')
 
-    other_skills = models.ManyToManyField(SkillOther, blank=True, verbose_name='Общие навыки')
-    pro_skills = models.ManyToManyField(SkillPro, blank=True, verbose_name='Профессиональные навыки')
+    other_skills = models.ForeignKey(ListOtherSkills, on_delete=models.SET_NULL, blank=True, null=True,
+                                     verbose_name='Лист общих навыков')
+    pro_skills = models.ForeignKey(ListProSkills, on_delete=models.SET_NULL, blank=True, null=True,
+                                   verbose_name='Лист профессиональных навыков')
 
     def __str__(self):
         return self.name

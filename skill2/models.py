@@ -34,3 +34,29 @@ class SkillPro(models.Model):
     class Meta:
         verbose_name = 'Профессиональный навык'
         verbose_name_plural = 'Профессиональные навыки'
+
+
+class ListOtherSkills(models.Model):
+    # Список общих навыков для прикрепления к листу персонажа
+    name = models.CharField(max_length=30, verbose_name='Название листа навыков', blank=True, null=True)
+    skill = models.ManyToManyField(SkillOther, verbose_name='Общий навык', blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Лист общих навыков'
+        verbose_name_plural = 'Листы общих навыков'
+
+
+class ListProSkills(models.Model):
+    # Список профессиональных навыков для прикрепления к листу персонажа
+    name = models.CharField(max_length=30, verbose_name='Название листа навыков', blank=True, null=True)
+    skill = models.ManyToManyField(SkillPro, verbose_name='Профессиональный навык', blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Лист профессиональных навыков'
+        verbose_name_plural = 'Листы профессиональных навыков'
