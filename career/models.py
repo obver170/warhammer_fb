@@ -85,3 +85,15 @@ class Career(models.Model):
     class Meta:
         verbose_name = 'Должность'
         verbose_name_plural = 'Должность'
+
+
+class ListArchiveCarriers(models.Model):
+    # Список предыдущих должностей
+    archive = models.ManyToManyField(Career, verbose_name='Список должностей', blank=True)
+
+    def __str__(self):
+        return self.archive
+
+    class Meta:
+        verbose_name = 'Список должностей'
+        verbose_name_plural = 'Списки должностей'
