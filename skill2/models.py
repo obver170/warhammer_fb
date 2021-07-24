@@ -7,34 +7,63 @@ from attribute.models import NameAttr
 STEPS = [(str(x), str(x)) for x in range(101)]
 
 
-class SkillOther(models.Model):
-    # Модель для общих навыков
+class BaseSkillOther(models.Model):
+    # Название общего навыка
     names = NamesOther()
     choices = names.get_choice_names()
+    name_skill = models.CharField(max_length=50, verbose_name='Название навыка', choices=choices, null=True,
+                                  blank=True,)
     attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Базовая характеристика')
-    name_skill = models.CharField(max_length=50, verbose_name='Название навыка', choices=choices)
-    steps = models.CharField(max_length=3, verbose_name='Шаги развития', choices=STEPS, default='0')
 
     def __str__(self):
-        return f'{self.name_skill} - {self.steps}'
+        return self.name_skill
 
     class Meta:
-        verbose_name = 'Общий навык'
-        verbose_name_plural = 'Общие навыки'
+        verbose_name = 'Название общего навыка'
+        verbose_name_plural = 'Названия общих навыков'
+
+
+class BaseSkillPro(models.Model):
+    # Название профессионального навыка
+    names = NamesProfessional()
+    choices = names.get_choice_names()
+    name_skill = models.CharField(max_length=50, verbose_name='Название навыка', choices=choices, null=True,
+                                  blank=True)
+    attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, null=True, blank=True,
+                             verbose_name='Базовая характеристика')
+
+    def __str__(self):
+        return self.name_skill
+
+    class Meta:
+        verbose_name = 'Название профессионального навыка'
+        verbose_name_plural = 'Названия профессиональных навыков'
+
+
+class SkillOther(models.Model):
+    # Модель для общих навыков
+    base = models.ForeignKey(BaseSkillOther, on_delete=models.SET_NULL, null=True, blank=True,
+                             verbose_name='Навык')
+    steps = models.CharField(max_length=3, verbose_name='Шаги развития', choices=STEPS, null=True,
+                             blank=True, default='0')
+
+    def __str__(self):
+        return f'{self.base} - {self.steps}'
+
+    class Meta:
+        verbose_name = 'Общий навык с шагами'
+        verbose_name_plural = 'Общие навыки с шагами'
 
 
 class SkillPro(models.Model):
     # Модель для профессиональных навыков
-    names = NamesProfessional()
-    choices = names.get_choice_names()
-    attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, null=True, blank=True,
-                             verbose_name='Базовая характеристика')
-    name_skill = models.CharField(max_length=50, verbose_name='Название навыка', choices=choices)
+    base = models.ForeignKey(BaseSkillPro, on_delete=models.SET_NULL, null=True, blank=True,
+                             verbose_name='Навык')
     steps = models.CharField(max_length=3, verbose_name='Шаги развития', choices=STEPS, default='0')
 
     def __str__(self):
-        return f'{self.name_skill} - {self.steps}'
+        return f'{self.base} - {self.steps}'
 
     class Meta:
         verbose_name = 'Профессиональный навык'

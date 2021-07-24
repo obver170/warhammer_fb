@@ -18,8 +18,8 @@ class NameAttr(models.Model):
         return self.name_attr
 
     class Meta:
-        verbose_name = 'Характеристика'
-        verbose_name_plural = 'Характеристики'
+        verbose_name = 'Название характеристики'
+        verbose_name_plural = 'Названия характеристик'
 
 
 class BaseAttribute(models.Model):
