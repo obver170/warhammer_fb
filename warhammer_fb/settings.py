@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'attribute.apps.AttributeConfig',
     'baseList.apps.BaselistConfig',
     'skill.apps.SkillConfig',
+    'career.apps.CareerConfig',
 ]
 
 MIDDLEWARE = [
