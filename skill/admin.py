@@ -1,34 +1,38 @@
 from django.contrib import admin
-from .models import ProfessionalSkillList, OtherSkillList, Gamble, OutdoorSurvival, TrainingOfAnimals, Knowledge, \
-    BookSearches, Treatment, Veterinarian, Grade, SecretSigns, Language, Entertain, Leadership, Charm, Bribery, Gossip,\
-    Haggle, Prayer
+# ProfessionalSkillList, OtherSkillList, Gamble, OutdoorSurvival, TrainingOfAnimals, Knowledge, \
+#     BookSearches, Treatment, Veterinarian, Grade, SecretSigns, Language, Entertain, Leadership, Charm, Bribery,
+#     Gossip,\
+#     Haggle, Prayer, \
+from .models import SkillOther, SkillPro
 
 
 
 # Register your models here.
 
-admin.site.register(ProfessionalSkillList)
-admin.site.register(TrainingOfAnimals)
-admin.site.register(Knowledge)
-admin.site.register(BookSearches)
-admin.site.register(Treatment)
-admin.site.register(Veterinarian)
-admin.site.register(Grade)
-admin.site.register(SecretSigns)
-admin.site.register(Language)
-admin.site.register(Prayer)
+# admin.site.register(ProfessionalSkillList)
+# admin.site.register(TrainingOfAnimals)
+# admin.site.register(Knowledge)
+# admin.site.register(BookSearches)
+# admin.site.register(Treatment)
+# admin.site.register(Veterinarian)
+# admin.site.register(Grade)
+# admin.site.register(SecretSigns)
+# admin.site.register(Language)
+# admin.site.register(Prayer)
+admin.site.register(SkillOther)
+admin.site.register(SkillPro)
 
 
 
 
 
 
-admin.site.register(OtherSkillList)
-admin.site.register(Gamble)
-admin.site.register(OutdoorSurvival)
-admin.site.register(Entertain)
-admin.site.register(Leadership)
-admin.site.register(Charm)
-admin.site.register(Bribery)
-admin.site.register(Gossip)
-admin.site.register(Haggle)
+# admin.site.register(OtherSkillList)
+# admin.site.register(Gamble)
+# admin.site.register(OutdoorSurvival)
+# admin.site.register(Entertain)
+# admin.site.register(Leadership)
+# admin.site.register(Charm)
+# admin.site.register(Bribery)
+# admin.site.register(Gossip)
+# admin.site.register(Haggle)

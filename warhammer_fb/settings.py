@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'attribute.apps.AttributeConfig',
     'baseList.apps.BaselistConfig',
-    'skill.apps.SkillConfig',
     'career.apps.CareerConfig',
+    'skill2.apps.Skill2Config',
+
+
 ]
 
 MIDDLEWARE = [
