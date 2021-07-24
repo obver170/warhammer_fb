@@ -13,6 +13,7 @@ class NameAttr(models.Model):
     names = ListNamesAttr()
     choices = names.get_choice_names()
     name_attr = models.CharField(max_length=30, verbose_name='Характеристика', blank=True, choices=choices)
+    description = models.TextField(verbose_name='Описание характеристики', blank=True)
 
     def __str__(self):
         return self.name_attr

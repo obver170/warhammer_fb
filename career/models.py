@@ -1,6 +1,7 @@
 from django.db import models
 from baseList.models import Nation, Estate
 from attribute.models import NameAttr
+from skill2.models import BaseSkillPro
 
 
 # Create your models here.
@@ -10,6 +11,7 @@ class Class(models.Model):
     # Общий класс для карьеры
     name_class = models.CharField(max_length=30, verbose_name='Название класса', blank=True, null=True)
     available_nation = models.ManyToManyField(Nation, verbose_name='Перечень доступных народов', blank=True)
+    description = models.TextField(verbose_name='Описание класса', blank=True)
 
     def __str__(self):
         return self.name_class
@@ -34,8 +36,7 @@ class Career(models.Model):
     estate = models.ForeignKey(Estate, on_delete=models.SET_NULL, verbose_name='Сословие и положение', blank=True,
                                null=True)
     available_attr = models.ManyToManyField(NameAttr, verbose_name='Доступные характеристики', blank=True)
-
-
+    available_skills = models.ManyToManyField(BaseSkillPro, verbose_name='Доступные навыки', blank=True)
 
     def __str__(self):
         return self.name_career

@@ -15,6 +15,7 @@ class BaseSkillOther(models.Model):
                                   blank=True,)
     attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Базовая характеристика')
+    description = models.TextField(verbose_name='Описание навыка', blank=True)
 
     def __str__(self):
         return self.name_skill
@@ -32,6 +33,7 @@ class BaseSkillPro(models.Model):
                                   blank=True)
     attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Базовая характеристика')
+    description = models.TextField(verbose_name='Описание навыка', blank=True)
 
     def __str__(self):
         return self.name_skill
