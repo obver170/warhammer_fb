@@ -12,7 +12,7 @@ class BaseSkillOther(models.Model):
     names = NamesOther()
     choices = names.get_choice_names()
     name_skill = models.CharField(max_length=50, verbose_name='Название навыка', choices=choices, null=True,
-                                  blank=True,)
+                                  blank=True, )
     attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Базовая характеристика')
     description = models.TextField(verbose_name='Описание навыка', blank=True)
@@ -96,3 +96,24 @@ class ListProSkills(models.Model):
     class Meta:
         verbose_name = 'Лист профессиональных навыков'
         verbose_name_plural = 'Листы профессиональных навыков'
+
+
+class Talent(models.Model):
+    # Талант
+    name = models.CharField(max_length=30, verbose_name='Название таланта', blank=True)
+    max = models.CharField(max_length=100, verbose_name='Максимальный уровень таланта', blank=True)
+    depend_attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, verbose_name='Связанная характеристика',
+                                    blank=True, null=True)
+    depend_skill_other = models.ForeignKey(BaseSkillOther, on_delete=models.SET_NULL,
+                                           verbose_name='Бонус на проверку общего навыка', blank=True, null=True)
+    depend_skill_pro = models.ForeignKey(BaseSkillPro, on_delete=models.SET_NULL,
+                                         verbose_name='Бонус на проверку профессионального навыка',
+                                         blank=True, null=True)
+    description = models.TextField(verbose_name='Описание таланта', blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Талант'
+        verbose_name_plural = 'Таланты'
