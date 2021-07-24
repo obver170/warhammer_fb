@@ -2,12 +2,14 @@ from django.db import models
 
 
 # Create your models here.
+# Список от 0 до 100
+STEPS = [(str(x), str(x)) for x in range(101)]
 
 
 class BaseAttribute(models.Model):
     # Основа для всех характеристик
     name_attribute: str = ''
-    initial_meaning = models.CharField(max_length=3, verbose_name='Начальное значение', default='0')
+    initial_meaning = models.CharField(max_length=3, verbose_name='Начальное значение', default='0', choices=STEPS)
 
     def __str__(self):
         return f'{self.initial_meaning}'

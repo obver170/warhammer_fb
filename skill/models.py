@@ -2,6 +2,9 @@ from django.db import models
 
 
 # Create your models here.
+# Список от 0 до 100
+STEPS = [(str(x), str(x)) for x in range(101)]
+
 
 
 class BaseSkill(models.Model):
@@ -10,9 +13,8 @@ class BaseSkill(models.Model):
     type_skill: str = 'Общий'
     base_attribute: str = 'Не указан'
     description: str = 'Нет описания'
-    isActive = models.BooleanField(verbose_name='Активен?', default=False)
 
-    steps = models.CharField(max_length=3, verbose_name='Шаги развития', default='0')
+    steps = models.CharField(max_length=3, verbose_name='Шаги развития', choices=STEPS, default='0')
 
     def __str__(self):
         return self.steps
