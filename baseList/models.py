@@ -1,7 +1,8 @@
 from django.db import models
 
 from attribute.models import AttributeList
-from skill2.models import ListOtherSkills, ListProSkills
+from skill2.models import ListOtherSkills, ListProSkills, Talent
+
 
 # Create your models here.
 nation_list = ('Человек', 'Полурослик', 'Гном', 'Высший эльф', 'Лесной эльф')
@@ -53,6 +54,9 @@ class Character(models.Model):
     nation = models.ForeignKey(Nation, verbose_name='Народ', on_delete=models.SET_NULL, blank=True, null=True)
     estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
 
+    # current_career = models.ForeignKey(Career, on_delete=models.SET_NULL, blank=True, null=True,
+    #                                    verbose_name='Текущая должность')
+
     init_attribute = models.ForeignKey(AttributeList, on_delete=models.SET_NULL, default=0,
                                        verbose_name='Начальные значения характеристик', blank=True, null=True)
     add_weaponSkill = models.CharField(max_length=3, verbose_name='Шаги в Ближний бой', default='0')
@@ -70,6 +74,7 @@ class Character(models.Model):
                                      verbose_name='Лист общих навыков')
     pro_skills = models.ForeignKey(ListProSkills, on_delete=models.SET_NULL, blank=True, null=True,
                                    verbose_name='Лист профессиональных навыков')
+    talents = models.ManyToManyField(Talent, verbose_name='Таланты', blank=True)
 
     def __str__(self):
         return self.name

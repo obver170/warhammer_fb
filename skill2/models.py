@@ -98,8 +98,11 @@ class ListProSkills(models.Model):
         verbose_name_plural = 'Листы профессиональных навыков'
 
 
-class Talent(models.Model):
-    # Талант
+
+
+
+class BaseTalent(models.Model):
+    # Талант общее описание
     name = models.CharField(max_length=30, verbose_name='Название таланта', blank=True)
     max = models.CharField(max_length=100, verbose_name='Максимальный уровень таланта', blank=True)
     depend_attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, verbose_name='Связанная характеристика',
@@ -113,6 +116,18 @@ class Talent(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Талант'
+        verbose_name_plural = 'Таланты'
+
+
+class Talent(models.Model):
+    base = models.ForeignKey(BaseTalent, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Талант')
+    lvl = models.CharField(max_length=3, choices=STEPS, verbose_name='Уровень развития',  blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.base} - {self.lvl}'
 
     class Meta:
         verbose_name = 'Талант'

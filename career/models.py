@@ -1,7 +1,7 @@
 from django.db import models
 from baseList.models import Nation, Estate
 from attribute.models import NameAttr
-from skill2.models import BaseSkillPro, Talent
+from skill2.models import BaseSkillPro, BaseTalent
 
 
 # Create your models here.
@@ -37,7 +37,7 @@ class Career(models.Model):
                                null=True)
     available_attr = models.ManyToManyField(NameAttr, verbose_name='Доступные характеристики', blank=True)
     available_skills = models.ManyToManyField(BaseSkillPro, verbose_name='Доступные навыки', blank=True)
-    available_talents = models.ManyToManyField(Talent, verbose_name='Доступные таланты', blank=True)
+    available_talents = models.ManyToManyField(BaseTalent, verbose_name='Доступные таланты', blank=True)
 
     def __str__(self):
         return self.name_career
