@@ -1,8 +1,8 @@
 class NameSkillBase:
     list_names: list = ()
 
-    # вернуть список из имен (для использования в моделях choice=)
     def get_choice_names(self):
+        # вернуть список из имен (для использования в моделях choice=)
         res = []
         for x in self.list_names:
             name = x.get('name')
@@ -13,9 +13,29 @@ class NameSkillBase:
                 res.append((f'{name} ({spec})', f'{name} ({spec})'))
         return res
 
-    # Вернуть все названия навыков
     def get_list_names(self):
+        # Вернуть все названия навыков
         return [x.get('name') for x in self.list_names]
+
+    def get_attr(self, name):
+        # Получить связанную характеристику по названию навыка
+        res = ''
+        for x in self.list_names:
+            if x.get('name').lower() == name.lower():
+                res = x.get('attr')
+                return res
+        return res
+
+    def get_list_by_attr(self, attr):
+        # Вернуть список названий навыков по указанной характеристике
+        res = []
+        for x in self.list_names:
+            if x.get('attr').lower() == attr.lower():
+                if x.get('spec') == '':
+                    res.append(x.get('name'))
+                else:
+                    res.append(x.get('name') + ' (' + x.get('spec') + ')')
+        return res
 
 
 # Список общих навыков
@@ -69,11 +89,6 @@ class NamesOther(NameSkillBase):
         {'name': 'Усмирение животных', 'attr': 'Сила воли', 'spec': ''},
         {'name': 'Хладнокровие', 'attr': 'Сила воли', 'spec': ''},
     )
-
-
-
-n = NamesOther()
-print(n.get_choice_names())
 
 
 class NamesProfessional(NameSkillBase):
@@ -160,3 +175,8 @@ class NamesProfessional(NameSkillBase):
         {'name': 'Язык', 'attr': 'Интеллект', 'spec': 'Магический'},
         {'name': 'Язык', 'attr': 'Интеллект', 'spec': 'Тилейский'},
     )
+
+
+n = NamesProfessional()
+print(n.get_attr('Взлом'))
+print(n.get_list_by_attr('ИНТЕЛЛект'))
