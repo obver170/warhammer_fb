@@ -239,17 +239,20 @@ class Prayer(BaseSkill):
 
 
 class OtherSkillList(models.Model):
-    name_list = models.CharField(max_length=20, verbose_name='Название набора', default='Общие навыки')
+    name_list = models.CharField(max_length=60, verbose_name='Название набора', default='Общие навыки')
 
-    gamble = models.ForeignKey(Gamble, on_delete=models.CASCADE, verbose_name=Gamble.name_skill)
-    outdoorSurvival = models.ForeignKey(OutdoorSurvival, on_delete=models.CASCADE,
-                                        verbose_name=OutdoorSurvival.name_skill, null=True)
-    entertain = models.ForeignKey(Entertain, on_delete=models.CASCADE, verbose_name=Entertain.name_skill, null=True)
-    leadership = models.ForeignKey(Leadership, on_delete=models.CASCADE, verbose_name=Leadership.name_skill, null=True)
-    charm = models.ForeignKey(Charm, on_delete=models.CASCADE, verbose_name=Charm.name_skill, null=True)
-    bribery = models.ForeignKey(Bribery, on_delete=models.CASCADE, verbose_name=Bribery.name_skill, null=True)
-    gossip = models.ForeignKey(Gossip, on_delete=models.CASCADE, verbose_name=Gossip.name_skill, null=True)
-    haggle = models.ForeignKey(Haggle, on_delete=models.CASCADE, verbose_name=Haggle.name_skill, null=True)
+    gamble = models.ForeignKey(Gamble, on_delete=models.SET_NULL, verbose_name=Gamble.name_skill, null=True, blank=True)
+    outdoorSurvival = models.ForeignKey(OutdoorSurvival, on_delete=models.SET_NULL,
+                                        verbose_name=OutdoorSurvival.name_skill, null=True, blank=True)
+    entertain = models.ForeignKey(Entertain, on_delete=models.SET_NULL, verbose_name=Entertain.name_skill, null=True,
+                                  blank=True)
+    leadership = models.ForeignKey(Leadership, on_delete=models.SET_NULL, verbose_name=Leadership.name_skill, null=True,
+                                   blank=True)
+    charm = models.ForeignKey(Charm, on_delete=models.SET_NULL, verbose_name=Charm.name_skill, null=True, blank=True)
+    bribery = models.ForeignKey(Bribery, on_delete=models.SET_NULL, verbose_name=Bribery.name_skill, null=True,
+                                blank=True)
+    gossip = models.ForeignKey(Gossip, on_delete=models.SET_NULL, verbose_name=Gossip.name_skill, null=True, blank=True)
+    haggle = models.ForeignKey(Haggle, on_delete=models.SET_NULL, verbose_name=Haggle.name_skill, null=True, blank=True)
 
     def __str__(self):
         return self.name_list
@@ -260,25 +263,25 @@ class OtherSkillList(models.Model):
 
 
 class ProfessionalSkillList(models.Model):
-    name_list = models.CharField(max_length=20, verbose_name='Название набора', default='Профессиональные навыки')
+    name_list = models.CharField(max_length=60, verbose_name='Название набора', default='Профессиональные навыки')
 
-    trainingOfAnimals = models.ForeignKey(TrainingOfAnimals, on_delete=models.CASCADE,
+    trainingOfAnimals = models.ForeignKey(TrainingOfAnimals, on_delete=models.SET_NULL,
                                           verbose_name=TrainingOfAnimals.name_skill, null=True, blank=True)
-    veterinarian = models.ForeignKey(Veterinarian, on_delete=models.CASCADE, verbose_name=Veterinarian.name_skill,
+    veterinarian = models.ForeignKey(Veterinarian, on_delete=models.SET_NULL, verbose_name=Veterinarian.name_skill,
                                      null=True, blank=True)
-    knowledge = models.ForeignKey(Knowledge, on_delete=models.CASCADE, verbose_name=Knowledge.name_skill,
+    knowledge = models.ForeignKey(Knowledge, on_delete=models.SET_NULL, verbose_name=Knowledge.name_skill,
                                   null=True, blank=True)
-    bookSearches = models.ForeignKey(BookSearches, on_delete=models.CASCADE, verbose_name=BookSearches.name_skill,
+    bookSearches = models.ForeignKey(BookSearches, on_delete=models.SET_NULL, verbose_name=BookSearches.name_skill,
                                      null=True, blank=True)
-    treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE, verbose_name=Treatment.name_skill,
+    treatment = models.ForeignKey(Treatment, on_delete=models.SET_NULL, verbose_name=Treatment.name_skill,
                                   null=True, blank=True)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, verbose_name=Grade.name_skill,
+    grade = models.ForeignKey(Grade, on_delete=models.SET_NULL, verbose_name=Grade.name_skill,
                               null=True, blank=True)
-    secretSigns = models.ForeignKey(SecretSigns, on_delete=models.CASCADE, verbose_name=SecretSigns.name_skill,
+    secretSigns = models.ForeignKey(SecretSigns, on_delete=models.SET_NULL, verbose_name=SecretSigns.name_skill,
                                     null=True, blank=True)
-    language = models.ForeignKey(Language, on_delete=models.CASCADE, verbose_name=Language.name_skill,
+    language = models.ForeignKey(Language, on_delete=models.SET_NULL, verbose_name=Language.name_skill,
                                  null=True, blank=True)
-    prayer = models.ForeignKey(Prayer, on_delete=models.CASCADE, verbose_name=Prayer.name_skill,
+    prayer = models.ForeignKey(Prayer, on_delete=models.SET_NULL, verbose_name=Prayer.name_skill,
                                null=True, blank=True)
 
     def __str__(self):
