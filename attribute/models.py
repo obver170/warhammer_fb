@@ -1,4 +1,5 @@
 from django.db import models
+from .code import ListNamesAttr
 
 
 # Create your models here.
@@ -6,9 +7,26 @@ from django.db import models
 STEPS = [(str(x), str(x)) for x in range(101)]
 
 
+class NameAttr(models.Model):
+    # Названия характеристик (для привязки к другим таблицам, таким как карьеры, навыки)
+    # Может в переделаю характеристики так же как навыки
+    names = ListNamesAttr()
+    choices = names.get_choice_names()
+    name_attr = models.CharField(max_length=30, verbose_name='Характеристика', blank=True, choices=choices)
+
+    def __str__(self):
+        return self.name_attr
+
+    class Meta:
+        verbose_name = 'Характеристика'
+        verbose_name_plural = 'Характеристики'
+
+
 class BaseAttribute(models.Model):
     # Основа для всех характеристик
     name_attribute: str = ''
+    name_attr = models.ForeignKey(NameAttr, on_delete=models.SET_NULL, verbose_name='Характеристика', null=True,
+                                  blank=True)
     initial_meaning = models.CharField(max_length=3, verbose_name='Начальное значение', default='0', choices=STEPS)
 
     def __str__(self):

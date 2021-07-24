@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import WeaponSkill, BallisticSkill, Strength, Toughness, Initiative, Agility, Dexterity, \
-    Intelligence, Willpower, Fellowship, AttributeList
+    Intelligence, Willpower, Fellowship, AttributeList, NameAttr
 
 
 # Register your models here.
@@ -23,3 +23,4 @@ admin.site.register(Dexterity)
 admin.site.register(Intelligence)
 admin.site.register(Willpower)
 admin.site.register(Fellowship)
+admin.site.register(NameAttr)
