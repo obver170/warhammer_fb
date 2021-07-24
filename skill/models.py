@@ -1,17 +1,12 @@
 from django.db import models
+# from .code import NameSkill
+
 # Характеристики и общие навыки - каждая является отдельной таблицей.
 # Профессиональные навыки, Таланты, классы, Народы - записи в соответствующих таблицах.
 
 # Create your models here.
 # Список от 0 до 100
 STEPS = [(str(x), str(x)) for x in range(101)]
-# Список общих навыков
-LIST_OTHER_SKILL = ('Азартные игры', 'Атлетика', 'Артистизм', 'Верховая езда', 'Вождение', 'Выживание', 'Гребля',
-                    'Запугивание', 'Интуиция', 'Искусство', 'Кутеж', 'Лазанье', 'Лидерство', 'Наблюдательность',
-                    'Обаяние', 'Ориентирование', 'Подкуп', 'Рукопашный бой', 'Рукопашный бой (основное)', 'Скрытность',
-                    'Сплетничество', 'Стойкость', 'Торговля', 'Уклонение', 'Усмирение животных', 'Хладнокровие',)
-
-CHOICES_OTHER = [(x, x) for x in LIST_OTHER_SKILL]
 
 
 class BaseSkill(models.Model):
@@ -20,6 +15,7 @@ class BaseSkill(models.Model):
     type_skill: str = 'Общий'
     base_attribute: str = 'Не указан'
     description: str = 'Нет описания'
+    special: str = None
 
     steps = models.CharField(max_length=3, verbose_name='Шаги развития', choices=STEPS, default='0')
 
