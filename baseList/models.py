@@ -30,6 +30,8 @@ class Character(models.Model):
     resilience = models.CharField(max_length=3, verbose_name='Упорство', blank=True, null=True)
     resolve = models.CharField(max_length=3, verbose_name='Решимость', blank=True, null=True)
     motivation = models.CharField(max_length=30, verbose_name='Мотивация', blank=True, null=True)
+    exp_current = models.CharField(max_length=5, verbose_name='Запас опыта', blank=True, null=True)
+    exp_spent = models.CharField(max_length=5, verbose_name='Портаченый опыт', blank=True, null=True)
 
     estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
 
