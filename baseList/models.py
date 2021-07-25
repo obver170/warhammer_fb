@@ -5,13 +5,26 @@ from skill2.models import ListOtherSkills, ListProSkills, Talent
 from career.models import Nation, Estate, Career, ListArchiveCarriers
 
 
-# Create your models here.
+class Eyes(models.Model):
+    color = models.CharField(max_length=20, verbose_name='Цвет глаз', blank=True, null=True)
+    description = models.CharField(max_length=60, verbose_name='Описание глаз', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.color} {self.description}'
+
+    class Meta:
+        verbose_name = 'Глаза'
+        verbose_name_plural = 'Глаза'
+
+
 class Character(models.Model):
     name = models.CharField(max_length=30, verbose_name='Имя персонажа', default='Джон')
     nation = models.ForeignKey(Nation, verbose_name='Народ', on_delete=models.SET_NULL, blank=True, null=True)
     age = models.CharField(max_length=4, verbose_name='Возраст', blank=True, null=True)
     height = models.CharField(max_length=4, verbose_name='Рост', blank=True, null=True)
     hair = models.CharField(max_length=20, verbose_name='Волосы', blank=True, null=True)
+    eyes = models.ForeignKey(Eyes, verbose_name='Глаза', on_delete=models.SET_NULL, blank=True, null=True)
+
     estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
 
     current_career = models.ForeignKey(Career, on_delete=models.SET_NULL, blank=True, null=True,
