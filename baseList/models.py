@@ -6,6 +6,7 @@ from career.models import Nation, Estate, Career, ListArchiveCarriers
 
 
 class Eyes(models.Model):
+    # Модель описывает глаза персонажа
     color = models.CharField(max_length=20, verbose_name='Цвет глаз', blank=True, null=True)
     description = models.CharField(max_length=60, verbose_name='Описание глаз', blank=True, null=True)
 
@@ -18,6 +19,7 @@ class Eyes(models.Model):
 
 
 class Character(models.Model):
+    # Модель сводит всю информацию об игровом персонаже (лист персонажа)
     name = models.CharField(max_length=30, verbose_name='Имя персонажа', default='Джон')
     nation = models.ForeignKey(Nation, verbose_name='Народ', on_delete=models.SET_NULL, blank=True, null=True)
     age = models.CharField(max_length=4, verbose_name='Возраст', blank=True, null=True)
@@ -32,6 +34,9 @@ class Character(models.Model):
     motivation = models.CharField(max_length=30, verbose_name='Мотивация', blank=True, null=True)
     exp_current = models.CharField(max_length=5, verbose_name='Запас опыта', blank=True, null=True)
     exp_spent = models.CharField(max_length=5, verbose_name='Портаченый опыт', blank=True, null=True)
+
+    short_ambition = models.CharField(max_length=100, verbose_name='Краткосрочная амбиция', blank=True, null=True)
+    long_ambition = models.CharField(max_length=100, verbose_name='Долгосрочная амбиция', blank=True, null=True)
 
     estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -60,6 +65,22 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Персонаж'
+        verbose_name_plural = 'Персонажи'
+
+
+class Party(models.Model):
+
+    name_party = models.CharField(max_length=50, verbose_name='Название команды', blank=True, null=True)
+    short_ambition = models.CharField(max_length=100, verbose_name='Краткосрочная амбиция', blank=True, null=True)
+    long_ambition = models.CharField(max_length=100, verbose_name='Долгосрочная амбиция', blank=True, null=True)
+    members = models.ManyToManyField(Character, verbose_name='Список участников', blank=True)
+    description = models.TextField(verbose_name='Расширенное описание группы', blank=True)
+
+    def __str__(self):
+        return self.name_party
 
     class Meta:
         verbose_name = 'Персонаж'
