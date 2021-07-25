@@ -9,11 +9,14 @@ from career.models import Nation, Estate, Career, ListArchiveCarriers
 class Character(models.Model):
     name = models.CharField(max_length=30, verbose_name='Имя персонажа', default='Джон')
     nation = models.ForeignKey(Nation, verbose_name='Народ', on_delete=models.SET_NULL, blank=True, null=True)
+    age = models.CharField(max_length=4, verbose_name='Возраст', blank=True, null=True)
+    height = models.CharField(max_length=4, verbose_name='Рост', blank=True, null=True)
+    hair = models.CharField(max_length=20, verbose_name='Волосы', blank=True, null=True)
     estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
 
     current_career = models.ForeignKey(Career, on_delete=models.SET_NULL, blank=True, null=True,
                                        verbose_name='Текущая должность')
-    archive_career = models.ManyToManyField(ListArchiveCarriers, verbose_name='Ранние должности', blank=True, null=True)
+    archive_career = models.ManyToManyField(ListArchiveCarriers, verbose_name='Ранние должности', blank=True)
 
     init_attribute = models.ForeignKey(AttributeList, on_delete=models.SET_NULL, default=0,
                                        verbose_name='Начальные значения характеристик', blank=True, null=True)
