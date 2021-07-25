@@ -72,10 +72,10 @@ class Character(models.Model):
     add_willpower = models.CharField(max_length=3, verbose_name='Шаги в Сила воли', default='0')
     add_fellowship = models.CharField(max_length=3, verbose_name='Шаги в Харизма', default='0')
 
-    other_skills = models.ForeignKey(ListOtherSkills, on_delete=models.SET_NULL, blank=True, null=True,
-                                     verbose_name='Лист общих навыков')
-    pro_skills = models.ForeignKey(ListProSkills, on_delete=models.SET_NULL, blank=True, null=True,
-                                   verbose_name='Лист профессиональных навыков')
+    other_skills = models.OneToOneField(ListOtherSkills, on_delete=models.SET_NULL, blank=True, null=True,
+                                        verbose_name='Лист общих навыков')
+    pro_skills = models.OneToOneField(ListProSkills, on_delete=models.SET_NULL, blank=True, null=True,
+                                      verbose_name='Лист профессиональных навыков')
     talents = models.ManyToManyField(Talent, verbose_name='Таланты', blank=True)
 
     def __str__(self):
@@ -98,5 +98,5 @@ class Party(models.Model):
         return self.name_party
 
     class Meta:
-        verbose_name = 'Персонаж'
-        verbose_name_plural = 'Персонажи'
+        verbose_name = 'Команда'
+        verbose_name_plural = 'Команды'
