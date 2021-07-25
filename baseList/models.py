@@ -1,5 +1,6 @@
 from django.db import models
 
+from .health_models import Psychology, Mutation
 from attribute.models import AttributeList
 from skill2.models import ListOtherSkills, ListProSkills, Talent
 from career.models import Nation, Estate, Career, ListArchiveCarriers
@@ -77,6 +78,14 @@ class Character(models.Model):
     pro_skills = models.OneToOneField(ListProSkills, on_delete=models.SET_NULL, blank=True, null=True,
                                       verbose_name='Лист профессиональных навыков')
     talents = models.ManyToManyField(Talent, verbose_name='Таланты', blank=True)
+
+    penny = models.CharField(max_length=10, verbose_name='Количество пенни', blank=True, null=True)
+
+    psy = models.ManyToManyField(Psychology, verbose_name='Психика', blank=True)
+
+    corruption = models.CharField(max_length=10, verbose_name='Пункты скверны', blank=True, null=True)
+    mutation = models.ManyToManyField(Mutation, verbose_name='Психика', blank=True)
+
 
     def __str__(self):
         return self.name
