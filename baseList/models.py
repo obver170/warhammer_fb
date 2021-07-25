@@ -25,6 +25,12 @@ class Character(models.Model):
     hair = models.CharField(max_length=20, verbose_name='Волосы', blank=True, null=True)
     eyes = models.ForeignKey(Eyes, verbose_name='Глаза', on_delete=models.SET_NULL, blank=True, null=True)
 
+    fate = models.CharField(max_length=3, verbose_name='Судьба', blank=True, null=True)
+    fortune = models.CharField(max_length=3, verbose_name='Удача', blank=True, null=True)
+    resilience = models.CharField(max_length=3, verbose_name='Упорство', blank=True, null=True)
+    resolve = models.CharField(max_length=3, verbose_name='Решимость', blank=True, null=True)
+    motivation = models.CharField(max_length=30, verbose_name='Мотивация', blank=True, null=True)
+
     estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
 
     current_career = models.ForeignKey(Career, on_delete=models.SET_NULL, blank=True, null=True,
