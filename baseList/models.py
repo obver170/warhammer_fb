@@ -18,6 +18,20 @@ class Eyes(models.Model):
         verbose_name_plural = 'Глаза'
 
 
+class Movement(models.Model):
+    # Модель описывает скорость передвижения
+    movement = models.CharField(max_length=3, verbose_name='Скорость', blank=True, null=True)
+    walk = models.CharField(max_length=3, verbose_name='Скорость шагом (ярдов за ход)', blank=True, null=True)
+    run = models.CharField(max_length=3, verbose_name='Скорость бегом (ярдов за ход)', blank=True, null=True)
+
+    def __str__(self):
+        return self.movement
+
+    class Meta:
+        verbose_name = 'Перемещение'
+        verbose_name_plural = 'Перемещение'
+
+
 class Character(models.Model):
     # Модель сводит всю информацию об игровом персонаже (лист персонажа)
     name = models.CharField(max_length=30, verbose_name='Имя персонажа', default='Джон')
@@ -27,6 +41,11 @@ class Character(models.Model):
     hair = models.CharField(max_length=20, verbose_name='Волосы', blank=True, null=True)
     eyes = models.ForeignKey(Eyes, verbose_name='Глаза', on_delete=models.SET_NULL, blank=True, null=True)
 
+    estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
+    current_career = models.ForeignKey(Career, on_delete=models.SET_NULL, blank=True, null=True,
+                                       verbose_name='Текущая должность')
+    archive_career = models.ManyToManyField(ListArchiveCarriers, verbose_name='Ранние должности', blank=True)
+
     fate = models.CharField(max_length=3, verbose_name='Судьба', blank=True, null=True)
     fortune = models.CharField(max_length=3, verbose_name='Удача', blank=True, null=True)
     resilience = models.CharField(max_length=3, verbose_name='Упорство', blank=True, null=True)
@@ -34,15 +53,11 @@ class Character(models.Model):
     motivation = models.CharField(max_length=30, verbose_name='Мотивация', blank=True, null=True)
     exp_current = models.CharField(max_length=5, verbose_name='Запас опыта', blank=True, null=True)
     exp_spent = models.CharField(max_length=5, verbose_name='Портаченый опыт', blank=True, null=True)
-
     short_ambition = models.CharField(max_length=100, verbose_name='Краткосрочная амбиция', blank=True, null=True)
     long_ambition = models.CharField(max_length=100, verbose_name='Долгосрочная амбиция', blank=True, null=True)
 
-    estate = models.ForeignKey(Estate, verbose_name='Статус', on_delete=models.SET_NULL, blank=True, null=True)
-
-    current_career = models.ForeignKey(Career, on_delete=models.SET_NULL, blank=True, null=True,
-                                       verbose_name='Текущая должность')
-    archive_career = models.ManyToManyField(ListArchiveCarriers, verbose_name='Ранние должности', blank=True)
+    movement = models.ForeignKey(Movement, on_delete=models.SET_NULL, default=0, verbose_name='Скорость', blank=True,
+                                 null=True)
 
     init_attribute = models.ForeignKey(AttributeList, on_delete=models.SET_NULL, default=0,
                                        verbose_name='Начальные значения характеристик', blank=True, null=True)
@@ -72,7 +87,7 @@ class Character(models.Model):
 
 
 class Party(models.Model):
-
+    # Модель описывает команду (сообщество) персонажей
     name_party = models.CharField(max_length=50, verbose_name='Название команды', blank=True, null=True)
     short_ambition = models.CharField(max_length=100, verbose_name='Краткосрочная амбиция', blank=True, null=True)
     long_ambition = models.CharField(max_length=100, verbose_name='Долгосрочная амбиция', blank=True, null=True)
