@@ -1,9 +1,12 @@
 from django.db import models
 
 from .modellist.health_models import Psychology, Mutation
-from attribute.models import AttributeList
-from skill2.models import ListOtherSkills, ListProSkills, Talent
-from career.models import Nation, Estate, Career, ListArchiveCarriers
+# from attribute.models import AttributeList
+from .modellist.attr_models import AttributeList
+# from skill2.models import ListOtherSkills, ListProSkills, Talent
+from .modellist.skill_models import ListOtherSkills, ListProSkills, Talent
+# from career.models import Nation, Estate, Career, ListArchiveCarriers
+from .modellist.career_models import Nation, Estate, Career, ListArchiveCarriers
 
 
 

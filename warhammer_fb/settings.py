@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'attribute.apps.AttributeConfig',
+    # 'attribute.apps.AttributeConfig',
     'baseList.apps.BaselistConfig',
-    'career.apps.CareerConfig',
-    'skill2.apps.Skill2Config',
+    # 'career.apps.CareerConfig',
+    # 'skill2.apps.Skill2Config',
 
 
 ]
