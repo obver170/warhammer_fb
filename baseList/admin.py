@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Character, Eyes, Party, Movement
-from .health_models import Psychology, Mutation
+from .modellist.health_models import Psychology, Mutation
 # Register your models here.
 
 

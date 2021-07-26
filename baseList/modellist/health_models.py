@@ -24,5 +24,5 @@ class Mutation(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Психическая особенность'
-        verbose_name_plural = 'Психические особенности'
+        verbose_name = 'Мутация'
+        verbose_name_plural = 'Мутации'

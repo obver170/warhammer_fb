@@ -21,8 +21,8 @@ class BaseSkillOther(models.Model):
         return self.name_skill
 
     class Meta:
-        verbose_name = 'Название общего навыка'
-        verbose_name_plural = 'Названия общих навыков'
+        verbose_name = 'Общий навык абстрактный'
+        verbose_name_plural = 'Общие навыки абстрактные'
 
 
 class BaseSkillPro(models.Model):
@@ -39,8 +39,8 @@ class BaseSkillPro(models.Model):
         return self.name_skill
 
     class Meta:
-        verbose_name = 'Название профессионального навыка'
-        verbose_name_plural = 'Названия профессиональных навыков'
+        verbose_name = 'Профессиональный навык абстрактный'
+        verbose_name_plural = 'Профессиональные навыки абстрактные'
 
 
 class SkillOther(models.Model):
@@ -54,8 +54,8 @@ class SkillOther(models.Model):
         return f'{self.base} - {self.steps}'
 
     class Meta:
-        verbose_name = 'Общий навык с шагами'
-        verbose_name_plural = 'Общие навыки с шагами'
+        verbose_name = 'Общий навык персонажа'
+        verbose_name_plural = 'Общие навыки персонажа'
 
 
 class SkillPro(models.Model):
@@ -68,8 +68,8 @@ class SkillPro(models.Model):
         return f'{self.base} - {self.steps}'
 
     class Meta:
-        verbose_name = 'Профессиональный навык'
-        verbose_name_plural = 'Профессиональные навыки'
+        verbose_name = 'Профессиональный навык персонажа'
+        verbose_name_plural = 'Профессиональные навыки персонажа'
 
 
 class ListOtherSkills(models.Model):
@@ -118,8 +118,8 @@ class BaseTalent(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Талант'
-        verbose_name_plural = 'Таланты'
+        verbose_name = 'Талант абстрактный'
+        verbose_name_plural = 'Таланты абстрактные'
 
 
 class Talent(models.Model):
@@ -130,5 +130,5 @@ class Talent(models.Model):
         return f'{self.base} - {self.lvl}'
 
     class Meta:
-        verbose_name = 'Талант'
-        verbose_name_plural = 'Таланты'
+        verbose_name = 'Талант персонажа'
+        verbose_name_plural = 'Таланты персонажа'

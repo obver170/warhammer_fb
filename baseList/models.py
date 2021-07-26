@@ -1,9 +1,11 @@
 from django.db import models
 
-from .health_models import Psychology, Mutation
+from .modellist.health_models import Psychology, Mutation
 from attribute.models import AttributeList
 from skill2.models import ListOtherSkills, ListProSkills, Talent
 from career.models import Nation, Estate, Career, ListArchiveCarriers
+
+
 
 
 class Eyes(models.Model):
