@@ -1,7 +1,4 @@
-/old_to_delete/
-/old_to_delete
-old_to_delete/
-old_to_delete
+/temp_delete/
 
 
 # Byte-compiled / optimized / DLL files
@@ -146,3 +143,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 model_bd.mwb.bak
+
