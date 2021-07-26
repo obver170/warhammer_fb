@@ -1,3 +1,9 @@
+/old_to_delete/
+/old_to_delete
+old_to_delete/
+old_to_delete
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -140,8 +146,3 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 model_bd.mwb.bak
-
-/old_to_delete/
-/old_to_delete
-old_to_delete/
-old_to_delete
