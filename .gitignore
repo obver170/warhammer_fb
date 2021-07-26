@@ -142,3 +142,6 @@ cython_debug/
 model_bd.mwb.bak
 
 /old_to_delete/
+/old_to_delete
+old_to_delete/
+old_to_delete
